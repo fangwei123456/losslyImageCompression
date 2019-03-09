@@ -1,6 +1,8 @@
 from PIL import Image
 from scipy import fftpack
 import numpy
+from bitstream import BitStream
+from numpy import *
 import huffmanEncode
 #libjpeg::jcparam.c
 
@@ -115,6 +117,11 @@ blockNum = 0;
 yDC = numpy.zeros((blockSum),dtype = int)
 uDC = numpy.zeros((blockSum),dtype = int)
 vDC = numpy.zeros((blockSum),dtype = int)
+
+yAC = BitStream()
+uAC = BitStream()
+vAC = BitStream()
+
 #保存所有块的亮度DC值
 #但是需要注意，只有第0个是真正的DC值，后面的保存的都是和前者的差值
 print('blockSum = ',blockSum)
@@ -153,11 +160,13 @@ for y in range(0, imageHeight, 8):
             uDC[blockNum] = uZCode[0] - uDC[blockNum-1]
             vDC[blockNum] = vZCode[0] - vDC[blockNum-1]
 
+
+
         # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
 
 
         blockNum = blockNum + 1
-        #huffmanEncode.huffmanEncodeDC(yDC)
+
 
 
 
