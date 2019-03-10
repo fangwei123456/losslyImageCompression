@@ -4,7 +4,19 @@ import numpy
 from bitstream import BitStream
 from numpy import *
 import huffmanEncode
+
+def hexToBytes(hexStr):
+    num = len(hexStr)//2
+    ret = numpy.zeros([num],dtype=int)
+    for i in range(num):
+        ret[i] = int(hexStr[2*i:2*i+2],16)
+
+    ret = ret.tolist()
+    ret = bytes(ret)
+    return ret
+
 #libjpeg::jcparam.c
+
 
 std_luminance_quant_tbl = numpy.array(
 [ 16,  11,  10,  16,  24,  40,  51,  61,
@@ -14,7 +26,7 @@ std_luminance_quant_tbl = numpy.array(
   18,  22,  37,  56,  68, 109, 103,  77,
   24,  35,  55,  64,  81, 104, 113,  92,
   49,  64,  78,  87, 103, 121, 120, 101,
-  72,  92,  95,  98, 112, 100, 103,  99])
+  72,  92,  95,  98, 112, 100, 103,  99],dtype=int)
 std_luminance_quant_tbl.reshape([8,8])
 
 std_chrominance_quant_tbl = numpy.array(
@@ -25,7 +37,7 @@ std_chrominance_quant_tbl = numpy.array(
   99,  99,  99,  99,  99,  99,  99,  99,
   99,  99,  99,  99,  99,  99,  99,  99,
   99,  99,  99,  99,  99,  99,  99,  99,
-  99,  99,  99,  99,  99,  99,  99,  99])
+  99,  99,  99,  99,  99,  99,  99,  99],dtype=int)
 std_chrominance_quant_tbl.reshape([8,8])
 
 zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,40,48,41,34,27,20,13,6,7,14,21,28,35,42,
@@ -178,7 +190,36 @@ huffmanEncode.encodeDC(uACBitStream, uDC, 0)
 huffmanEncode.encodeDC(vACBitStream, vDC, 0)
 
 jpegFile = open('output.jpg','wb+')
-jpegFile.write(bytes([255,216])) # FF D8
+# 图像开始
+jpegFile.write(hexToBytes('FFD8FFE000104A46494600010200000100010000'))
+# y量化表
+jpegFile.write(hexToBytes('FFDB004300'))
+jpegFile.write(bytes(std_luminance_quant_tbl.tolist()))
+# u/v量化表
+jpegFile.write(hexToBytes('FFDB004301'))
+jpegFile.write(bytes(std_chrominance_quant_tbl.tolist()))
+# 帧图像开始
+jpegFile.write(hexToBytes('FFC0001108'))
+hHex = hex(srcImageHeight)[2:]# 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
+while len(hHex)!=4:
+    hHex = '0' + hHex
+
+jpegFile.write(hexToBytes(hHex))
+
+wHex = hex(srcImageWidth)[2:]  # 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
+while len(wHex) != 4:
+    wHex = '0' + wHex
+
+jpegFile.write(hexToBytes(wHex))
+
+# yuv采样分别为22 22 22
+jpegFile.write(hexToBytes('03012200022201032201'))
+
+# huffman表0 yDC
+jpegFile.write(hexToBytes('FFC4'))
+
+
+
 
 
 

@@ -1,6 +1,8 @@
 from bitstream import BitStream
 import numpy
 from numpy import *
+
+
 #Image Compression: JPEG Multimedia Systems (Module 4 Lesson 1).pdf
 
 #The DC Hoffman coding table for luminance recommended by JPEG
