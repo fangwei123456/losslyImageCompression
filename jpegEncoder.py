@@ -118,9 +118,13 @@ yDC = numpy.zeros((blockSum),dtype = int)
 uDC = numpy.zeros((blockSum),dtype = int)
 vDC = numpy.zeros((blockSum),dtype = int)
 
-yAC = BitStream()
-uAC = BitStream()
-vAC = BitStream()
+yDCBitStream = BitStream()
+uDCBitStream = BitStream()
+vDCBitStream = BitStream()
+
+yACBitStream = BitStream()
+uACBitStream = BitStream()
+vACBitStream = BitStream()
 
 #保存所有块的亮度DC值
 #但是需要注意，只有第0个是真正的DC值，后面的保存的都是和前者的差值
@@ -163,9 +167,19 @@ for y in range(0, imageHeight, 8):
 
 
         # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
-
+        huffmanEncode.encodeACBlock(yACBitStream,yZCode[1:],1)
+        huffmanEncode.encodeACBlock(uACBitStream, uZCode[1:], 0)
+        huffmanEncode.encodeACBlock(vACBitStream, vZCode[1:], 0)
 
         blockNum = blockNum + 1
+
+huffmanEncode.encodeDC(yACBitStream,yDC,1)
+huffmanEncode.encodeDC(uACBitStream, uDC, 0)
+huffmanEncode.encodeDC(vACBitStream, vDC, 0)
+
+jpegFile = open('output.jpg','wb+')
+jpegFile.write(bytes([255,216])) # FF D8
+
 
 
 

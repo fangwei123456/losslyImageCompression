@@ -694,15 +694,15 @@ ACChrominanceToCode = {
 
 #DC components are differentially coded as (SIZE,Value)
 
-def encodeDC(DCArray,isLuminance):
-    ret = BitStream()
+def encodeDC(bitStream,DCArray,isLuminance):
+
 
     for value in DCArray:
         size = int(value).bit_length() # int(0).bit_length()=0
         if(isLuminance==1):
-            ret.write(DCLuminanceSizeToCode[size],bool)
+            bitStream.write(DCLuminanceSizeToCode[size],bool)
         else:
-            ret.write(DCChrominanceSizeToCode[size], bool)
+            bitStream.write(DCChrominanceSizeToCode[size], bool)
         if(value<0):
             codeList = list(bin(value)[3:])
             for i in range(len(codeList)):
@@ -718,11 +718,9 @@ def encodeDC(DCArray,isLuminance):
                 else:
                     codeList[i] = 1
 
-        ret.write(codeList,bool)
-    return ret
+        bitStream.write(codeList,bool)
 
-def encodeACBlock(ACArray,isLuminance):
-    ret = BitStream()
+def encodeACBlock(bitStream,ACArray,isLuminance):
 
     for i in range(numpy.size(ACArray)):
         run = 0
@@ -744,9 +742,9 @@ def encodeACBlock(ACArray,isLuminance):
 
 
         if (isLuminance == 1):
-            ret.write(ACLuminanceSizeToCode[runSizeStr], bool)
+            bitStream.write(ACLuminanceSizeToCode[runSizeStr], bool)
         else:
-            ret.write(ACChrominanceToCode[runSizeStr], bool)
+            bitStream.write(ACChrominanceToCode[runSizeStr], bool)
 
 
         if(value<0):
@@ -763,13 +761,12 @@ def encodeACBlock(ACArray,isLuminance):
                     codeList[i] = 0
                 else:
                     codeList[i] = 1
-        ret.write(codeList, bool)
+        bitStream.write(codeList, bool)
 
     if (isLuminance == 1):
-        ret.write(ACLuminanceSizeToCode['0/0'], bool)
+        bitStream.write(ACLuminanceSizeToCode['0/0'], bool)
     else:
-        ret.write(ACChrominanceToCode['0/0'], bool)
-    return ret
+        bitStream.write(ACChrominanceToCode['0/0'], bool)
 
 
 
