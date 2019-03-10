@@ -17,8 +17,8 @@ DCLuminanceSizeToCode = [
     [1,1,1,1,0],        #7
     [1,1,1,1,1,0],      #8
     [1,1,1,1,1,1,0],    #9
-    [1,1,1,1,1,1,1,0],  #10
-    [1,1,1,1,1,1,1,1,0] #11
+    [1,1,1,1,1,1,1,0],  #10 0A
+    [1,1,1,1,1,1,1,1,0] #11 0B
 ]
 
 #The DC Hoffman coding table for chrominance recommended by JPEG
@@ -33,8 +33,8 @@ DCChrominanceSizeToCode = [
     [1,1,1,1,1,1,0],       #7
     [1,1,1,1,1,1,1,0],     #8
     [1,1,1,1,1,1,1,1,0],   #9
-    [1,1,1,1,1,1,1,1,1,0], #10
-    [1,1,1,1,1,1,1,1,1,1,0]#11
+    [1,1,1,1,1,1,1,1,1,0], #10 0A
+    [1,1,1,1,1,1,1,1,1,1,0]#11 0B
 ]
 
 ACLuminanceSizeToCode = {
@@ -721,6 +721,7 @@ def encodeDC(bitStream,DCArray,isLuminance):
                     codeList[i] = 1
 
         bitStream.write(codeList,bool)
+        #EOF
 
 def encodeACBlock(bitStream,ACArray,isLuminance):
 
