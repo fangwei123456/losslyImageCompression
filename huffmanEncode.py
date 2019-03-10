@@ -7,7 +7,7 @@ from numpy import *
 
 #The DC Hoffman coding table for luminance recommended by JPEG
 DCLuminanceSizeToCode = [
-    [0,0],              #0
+    [0,0],              #0 EOB
     [0,1,0],            #1
     [0,1,1],            #2
     [1,0,0],            #3
@@ -23,7 +23,7 @@ DCLuminanceSizeToCode = [
 
 #The DC Hoffman coding table for chrominance recommended by JPEG
 DCChrominanceSizeToCode = [
-    [0,0],                 #0
+    [0,0],                 #0 EOB
     [0,1],                 #1
     [1,0],                 #2
     [1,1,0],               #3
@@ -38,7 +38,7 @@ DCChrominanceSizeToCode = [
 ]
 
 ACLuminanceSizeToCode = {
-'0/0':[1,0,1,0],#EOB, End_Of_Block for the 8x8 block
+'0/0':[1,0,1,0],#EOB
 
 '0/1':[0,0],
 
@@ -364,7 +364,7 @@ ACLuminanceSizeToCode = {
 }
 
 ACChrominanceToCode = {
-'0/0':[0,0],
+'0/0':[0,0], #EOB
 
 '0/1':[0,1],
 
@@ -705,7 +705,7 @@ def encodeDC(bitStream,DCArray,isLuminance):
             bitStream.write(DCLuminanceSizeToCode[size],bool)
         else:
             bitStream.write(DCChrominanceSizeToCode[size], bool)
-        if(value<0):
+        if(value<=0): # if value==0, codeList = [], (SIZE,VALUE)=(SIZE)=EOB
             codeList = list(bin(value)[3:])
             for i in range(len(codeList)):
                 if (codeList[i] == '0'):
@@ -721,7 +721,6 @@ def encodeDC(bitStream,DCArray,isLuminance):
                     codeList[i] = 1
 
         bitStream.write(codeList,bool)
-        #EOF
 
 def encodeACBlock(bitStream,ACArray,isLuminance):
 
@@ -750,7 +749,7 @@ def encodeACBlock(bitStream,ACArray,isLuminance):
             bitStream.write(ACChrominanceToCode[runSizeStr], bool)
 
 
-        if(value<0):
+        if(value<=0):# if value==0, codeList = [], (SIZE,VALUE)=(SIZE)=EOB
             codeList = list(bin(value)[3:])
             for i in range(len(codeList)):
                 if (codeList[i] == '0'):
@@ -767,7 +766,7 @@ def encodeACBlock(bitStream,ACArray,isLuminance):
         bitStream.write(codeList, bool)
 
     if (isLuminance == 1):
-        bitStream.write(ACLuminanceSizeToCode['0/0'], bool)
+        bitStream.write(ACLuminanceSizeToCode['0/0'], bool) # EOB
     else:
         bitStream.write(ACChrominanceToCode['0/0'], bool)
 

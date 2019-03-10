@@ -14,7 +14,7 @@ def hexToBytes(hexStr):
     ret = ret.tolist()
     ret = bytes(ret)
     return ret
-
+#http://home.elka.pw.edu.pl/~mmanowie/psap/neue/1%20JPEG%20Overview.htm
 #libjpeg::jcparam.c
 
 
@@ -220,8 +220,9 @@ jpegFile.write(hexToBytes('FFC4'))
 
 
 
-# 数据是一块一块的写，yDC(DC不存在则为EOF) yAC EOF uDC(DC不存在则为EOF) uAC EOF vDC(DC不存在则为EOF) vAC EOB，然后下一块
 
+
+# 数据是一块一块的写， yDC yAC EOB uDC uAC EOB vDC vAC EOB
 
 
 
