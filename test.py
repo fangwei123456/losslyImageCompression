@@ -3,6 +3,7 @@ import numpy
 from numpy import *
 import huffmanEncode
 import jpegEncoder
+from scipy import fftpack
 
 #ACArray = numpy.array([12,10,1,-7,0,0,-4],dtype=int)
 #ACArray = numpy.hstack((ACArray,numpy.zeros([56],dtype=int)))
@@ -40,11 +41,11 @@ import jpegEncoder
 #a.write([1],bool)
 #print(a)
 
-a = numpy.ones([10])
-for i in range(10):
-    if(i>0):
-        a[i] = a[i] + a[i-1]
-    print(a[i],a[i-1])
-
+# https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossy/jpeg/dct.htm
+a = numpy.array([140,144,147,140,140,155,179,175,144,152,140,147,140,148,167,179,152,155,136,167,163,162,152,172,168,145,156,160,152,155,136,160,162,148,156,148,140,136,147,162,147,167,140,155,155,140,136,162,136,156,123,167,162,144,140,147,148,155,136,155,152,147,147,136])
+a.reshape([8,8])
+a.astype(numpy.int)
+#a = a - 128
+print(fftpack.dct(fftpack.dct(a,norm='ortho').T,norm='ortho').T)
 
 

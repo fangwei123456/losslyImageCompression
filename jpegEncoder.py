@@ -79,7 +79,8 @@ def main():
     #    print("\n",end='')
 
     # 分离三个通道并中心化
-    yuvImageMatrix = yuvImageMatrix.astype(numpy.int16)
+
+    yuvImageMatrix = yuvImageMatrix.astype(numpy.int)
     yuvImageMatrix = yuvImageMatrix - 128
 
     yImageMatrix = yuvImageMatrix[:, :, 0]
@@ -131,12 +132,12 @@ def main():
     for y in range(0, imageHeight, 8):
         for x in range(0, imageWidth, 8):
             print(y, x, ' -> ', y + 8, x + 8)
-            yDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
-            uDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
-            vDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
-            # print('yDctMatrix:\n',yDctMatrix)
-            # print('uDctMatrix:\n',uDctMatrix)
-            # print('vDctMatrix:\n',vDctMatrix)
+            yDctMatrix = fftpack.dct(fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
+            uDctMatrix = fftpack.dct(fftpack.dct(uImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
+            vDctMatrix = fftpack.dct(fftpack.dct(vImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
+            print('yDctMatrix:\n',yDctMatrix)
+            print('uDctMatrix:\n',uDctMatrix)
+            print('vDctMatrix:\n',vDctMatrix)
 
             # 量化
             # Although JPEG allows for the use of any quantization matrix, ISO has done extensive testing and developed a standard set of quantization values that cause impressive degrees of compression.
@@ -203,8 +204,13 @@ def main():
 
     jpegFile.write(huffmanEncode.hexToBytes(wHex))
 
-    # yuv采样分别为22 22 22
-    jpegFile.write(huffmanEncode.hexToBytes('03012200022201032201'))
+    # yuv采样分别为11 11 11
+    # 03    01 11 00    02 11 01    03 11 01
+    # 1：1	01 11 00	02 11 01	03 11 01
+    # 1：2	01 21 00	02 11 01	03 11 01
+    # 1：4	01 22 00	02 11 01	03 11 01
+
+    jpegFile.write(huffmanEncode.hexToBytes('03011100021101031101'))
 
     # huffman DC表0 y DC
     jpegFile.write(huffmanEncode.DCLuminanceTableToBytes())
@@ -228,14 +234,7 @@ def main():
         sosBitStream.write(numpy.ones([filledNum]).tolist(),bool)
     print(sosBitStream.__len__())
 
-    bytesLength = sosBitStream.__len__()//8
-    bytesLength = bytesLength + 12
-    bytesLengthHex = hex(bytesLength)[2:]
-    while len(bytesLengthHex) != 4:
-        bytesLengthHex = '0' + bytesLengthHex
-    headList = []
-    headList.extend(([255, 218, int(bytesLengthHex[0:2], 16), int(bytesLengthHex[2:4], 16), 3, 1, 0, 2, 17, 3, 17, 0, 63, 0])) # FF DA XX XX(bytesLengthHex) 03 01 00 02 11 03 11 00 3F 00
-    jpegFile.write(bytes(headList))
+    jpegFile.write(bytes([255, 218, 0, 12, 3, 1, 0, 2, 17, 3, 17, 0, 63, 0])) # FF DA 00 0C 03 01 00 02 11 03 11 00 3F 00
 
     sosBytes = sosBitStream.read(bytes)
     for i in range(len(sosBytes)):

@@ -1206,13 +1206,13 @@ def encodeDCToBoolList(value,isLuminance):
 def encodeACBlock(bitStream,ACArray,isLuminance):
 
     i = 0
-    maxI = range(numpy.size(ACArray))
+    maxI = numpy.size(ACArray)
     while 1:
         if(i==maxI):
             break
         run = 0
         while 1:
-            if(ACArray[i]!=0 or i==numpy.size(ACArray) - 1 or run==15):
+            if(ACArray[i]!=0 or i==maxI - 1 or run==15):
                 break
             else:
                 run = run + 1

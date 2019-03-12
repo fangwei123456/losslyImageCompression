@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/huffmanEncode.py" beforeDir="false" afterPath="$PROJECT_DIR$/huffmanEncode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,35 +20,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
+            <state relative-caret-position="245">
+              <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="1251" column="17" selection-start-line="1251" selection-start-column="17" selection-end-line="1251" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-                <element signature="e#2212#2587#0" />
-                <element signature="e#3826#10055#0" />
-                <element signature="e#18513#24669#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-210">
+              <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#522#861#0" />
+                <element signature="e#2212#2587#0" />
+                <element signature="e#3826#10055#0" />
+                <element signature="e#10085#17478#0" />
+                <element signature="e#18513#24669#0" />
+                <element signature="e#24697#31979#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="152" column="17" selection-start-line="152" selection-start-column="17" selection-end-line="152" selection-end-column="17" />
+            <state relative-caret-position="255">
+              <caret line="144" column="47" selection-start-line="144" selection-start-column="47" selection-end-line="144" selection-end-column="47" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -72,6 +75,9 @@
       <find>file</find>
       <find>encode</find>
       <find>hexToBytes</find>
+      <find>http</find>
+      <find>dct</find>
+      <find>jpeg</find>
     </findStrings>
     <replaceStrings>
       <replace>range</replace>
@@ -86,9 +92,9 @@
       <list>
         <option value="$PROJECT_DIR$/dc_ac_encode.py" />
         <option value="$PROJECT_DIR$/readList.py" />
-        <option value="$PROJECT_DIR$/jpegEncoder.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/huffmanEncode.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/jpegEncoder.py" />
       </list>
     </option>
   </component>
@@ -278,17 +284,6 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/jpegEncoder.py</url>
-          <line>170</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/256x256.bmp">
       <provider selected="true" editor-type-id="images" />
@@ -298,13 +293,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dc_ac_encode.py" />
     <entry file="file://$PROJECT_DIR$/429x192.bmp" />
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/scipy/fftpack/realtransforms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="253" column="4" selection-start-line="253" selection-start-column="4" selection-end-line="253" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readList.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/scipy/sparse/coo.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -351,35 +339,45 @@
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/numpy/random/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/scipy/fftpack/realtransforms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="214">
+          <caret line="253" column="27" selection-start-line="253" selection-start-column="27" selection-end-line="253" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="152" column="17" selection-start-line="152" selection-start-column="17" selection-end-line="152" selection-end-column="17" />
+        <state relative-caret-position="245">
+          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="1251" column="17" selection-start-line="1251" selection-start-column="17" selection-end-line="1251" selection-end-column="17" />
+        <state relative-caret-position="-210">
+          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#522#861#0" />
             <element signature="e#2212#2587#0" />
             <element signature="e#3826#10055#0" />
+            <element signature="e#10085#17478#0" />
             <element signature="e#18513#24669#0" />
+            <element signature="e#24697#31979#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="144" column="47" selection-start-line="144" selection-start-column="47" selection-end-line="144" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
