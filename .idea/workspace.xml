@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/0.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/huffmanEncode.py" beforeDir="false" afterPath="$PROJECT_DIR$/huffmanEncode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
@@ -17,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="39" column="10" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
+            <state relative-caret-position="379">
+              <caret line="32" column="14" lean-forward="true" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -29,13 +31,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="702" column="12" selection-start-line="702" selection-start-column="8" selection-end-line="702" selection-end-column="12" />
+            <state relative-caret-position="380">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <element signature="e#1034#7295#0" />
-                <element signature="e#7319#13470#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/numpy/core/multiarray.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="4895" column="8" selection-start-line="4895" selection-start-column="8" selection-end-line="4895" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -43,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1515">
-              <caret line="16" column="71" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
+            <state relative-caret-position="133">
+              <caret line="7" selection-start-line="7" selection-end-line="15" selection-end-column="14" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -80,8 +89,8 @@
       <list>
         <option value="$PROJECT_DIR$/dc_ac_encode.py" />
         <option value="$PROJECT_DIR$/readList.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/jpegEncoder.py" />
+        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/huffmanEncode.py" />
       </list>
     </option>
@@ -98,7 +107,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -110,6 +118,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -303,7 +312,6 @@
     <entry file="file://$USER_HOME$/桌面/jpeg-python-master/encoder.py" />
     <entry file="file://$USER_HOME$/桌面/jpeg-python-master/huffman.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/bitstring.py" />
-    <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/numpy/core/multiarray.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/builtins.py" />
     <entry file="file://$PROJECT_DIR$/8x8.bmp">
       <provider selected="true" editor-type-id="images" />
@@ -327,8 +335,8 @@
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/bitstream.py" />
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="10" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
+        <state relative-caret-position="379">
+          <caret line="32" column="14" lean-forward="true" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
@@ -337,22 +345,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1515">
-          <caret line="16" column="71" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
+        <state relative-caret-position="133">
+          <caret line="7" selection-start-line="7" selection-end-line="15" selection-end-column="14" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/numpy/core/multiarray.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="4895" column="8" selection-start-line="4895" selection-start-column="8" selection-end-line="4895" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="702" column="12" selection-start-line="702" selection-start-column="8" selection-end-line="702" selection-end-column="12" />
+        <state relative-caret-position="380">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <element signature="e#1034#7295#0" />
-            <element signature="e#7319#13470#0" />
           </folding>
         </state>
       </provider>

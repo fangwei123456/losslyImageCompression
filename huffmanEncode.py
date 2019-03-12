@@ -20,6 +20,37 @@ DCLuminanceSizeToCode = [
     [1,1,1,1,1,1,1,0],  #10 0A
     [1,1,1,1,1,1,1,1,0] #11 0B
 ]
+#将DC huffman 0 表保存成十六进制（字符串形式）
+def writeDCTable0ToHexStr():
+    ret = 'FFC4'
+    #codeLength[0]保存比特数为1的数量
+    codeLength = numpy.zeros([16],dtype=int)
+    #category[0]保存比特为1的类别
+    category = []
+    for i in range(16):
+        category.append([])
+
+    for i in range(len(DCLuminanceSizeToCode)):
+        #比特数为currentLength 对应的类别为i
+        currentLength = len(DCLuminanceSizeToCode[i])
+        codeLength[currentLength-1] = codeLength[currentLength-1] + 1
+        category[currentLength-1].append(i)
+
+    tableList = codeLength.tolist()
+    for i in range(16):
+        if(len(category[i])>0):
+            category[i].sort()
+            tableList.extend(category[i])
+
+    print(tableList)
+
+
+
+
+
+
+
+
 
 #The DC Hoffman coding table for chrominance recommended by JPEG
 DCChrominanceSizeToCode = [

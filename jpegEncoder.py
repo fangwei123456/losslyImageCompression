@@ -215,8 +215,10 @@ jpegFile.write(hexToBytes(wHex))
 # yuv采样分别为22 22 22
 jpegFile.write(hexToBytes('03012200022201032201'))
 
-# huffman表0 yDC
-jpegFile.write(hexToBytes('FFC4'))
+# huffman DC表0 y DC
+
+# huffman DC表1 u/v DC
+
 
 
 
