@@ -1205,7 +1205,11 @@ def encodeDCToBoolList(value,isLuminance):
 
 def encodeACBlock(bitStream,ACArray,isLuminance):
 
-    for i in range(numpy.size(ACArray)):
+    i = 0
+    maxI = range(numpy.size(ACArray))
+    while 1:
+        if(i==maxI):
+            break
         run = 0
         while 1:
             if(ACArray[i]!=0 or i==numpy.size(ACArray) - 1 or run==15):
@@ -1232,19 +1236,20 @@ def encodeACBlock(bitStream,ACArray,isLuminance):
 
         if(value<=0):# if value==0, codeList = [], (SIZE,VALUE)=(SIZE)=EOB
             codeList = list(bin(value)[3:])
-            for i in range(len(codeList)):
-                if (codeList[i] == '0'):
-                    codeList[i] = 1
+            for k in range(len(codeList)):
+                if (codeList[k] == '0'):
+                    codeList[k] = 1
                 else:
-                    codeList[i] = 0
+                    codeList[k] = 0
         else:
             codeList = list(bin(value)[2:])
-            for i in range(len(codeList)):
-                if (codeList[i] == '0'):
-                    codeList[i] = 0
+            for k in range(len(codeList)):
+                if (codeList[k] == '0'):
+                    codeList[k] = 0
                 else:
-                    codeList[i] = 1
+                    codeList[k] = 1
         bitStream.write(codeList, bool)
+        i = i + 1
 
     if (isLuminance == 1):
         bitStream.write(ACLuminanceSizeToCode['0/0'], bool) # EOB

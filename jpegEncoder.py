@@ -38,7 +38,7 @@ zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,4
 
 def main():
     numpy.set_printoptions(threshold=numpy.inf)
-    srcFileName = './78x29.bmp'
+    srcFileName = './1.bmp'
     srcImage = Image.open(srcFileName)
     srcImageWidth, srcImageHeight = srcImage.size
     print('srcImageWidth = %d srcImageHeight = %d' % (srcImageWidth, srcImageHeight))
@@ -236,7 +236,12 @@ def main():
     headList = []
     headList.extend(([255, 218, int(bytesLengthHex[0:2], 16), int(bytesLengthHex[2:4], 16), 3, 1, 0, 2, 17, 3, 17, 0, 63, 0])) # FF DA XX XX(bytesLengthHex) 03 01 00 02 11 03 11 00 3F 00
     jpegFile.write(bytes(headList))
-    jpegFile.write(sosBitStream.read(bytes))
+
+    sosBytes = sosBitStream.read(bytes)
+    for i in range(len(sosBytes)):
+        jpegFile.write(bytes([sosBytes[i]]))
+        if(sosBytes[i]==255):
+            jpegFile.write(bytes([0])) # FF应该补全为FF00 避免混淆
 
 
     jpegFile.write(bytes([255,217])) # FF D9
@@ -245,5 +250,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
