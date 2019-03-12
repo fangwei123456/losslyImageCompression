@@ -5,15 +5,7 @@ from bitstream import BitStream
 from numpy import *
 import huffmanEncode
 
-def hexToBytes(hexStr):
-    num = len(hexStr)//2
-    ret = numpy.zeros([num],dtype=int)
-    for i in range(num):
-        ret[i] = int(hexStr[2*i:2*i+2],16)
 
-    ret = ret.tolist()
-    ret = bytes(ret)
-    return ret
 #http://home.elka.pw.edu.pl/~mmanowie/psap/neue/1%20JPEG%20Overview.htm
 #libjpeg::jcparam.c
 
@@ -44,188 +36,214 @@ zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,4
                            49,56,57,50,43,36,29,22,15,23,30,37,44,51,58,59,52,45,38,31,39,46,53,60,61,54,47,55,62,63])
 
 
-numpy.set_printoptions(threshold=numpy.inf)
+def main():
+    numpy.set_printoptions(threshold=numpy.inf)
+    srcFileName = './78x29.bmp'
+    srcImage = Image.open(srcFileName)
+    srcImageWidth, srcImageHeight = srcImage.size
+    print('srcImageWidth = %d srcImageHeight = %d' % (srcImageWidth, srcImageHeight))
+    print('srcImage info:\n', srcImage)
+    srcImageMatrix = numpy.asarray(srcImage)
 
-srcFileName = './78x29.bmp'
-srcImage = Image.open(srcFileName)
-srcImageWidth, srcImageHeight = srcImage.size
-print('srcImageWidth = %d srcImageHeight = %d'%(srcImageWidth,srcImageHeight))
-print('srcImage info:\n',srcImage)
-srcImageMatrix = numpy.asarray(srcImage)
+    # print('srcImageMatrix:\n')
+    # for y in range(srcImageHeight):
+    #    for x in range(srcImageWidth):
+    #        print(srcImageMatrix[y][x],end='')
+    #    print("\n",end='')
 
-#print('srcImageMatrix:\n')
-#for y in range(srcImageHeight):
-#    for x in range(srcImageWidth):
-#        print(srcImageMatrix[y][x],end='')
-#    print("\n",end='')
+    # 检测长宽是否为8的整数倍，不为则补全到整数
+    imageWidth = srcImageWidth
+    imageHeight = srcImageHeight
+    if (srcImageWidth % 8 != 0):
+        imageWidth = srcImageWidth // 8 * 8 + 8
+    if (srcImageHeight % 8 != 0):
+        imageHeight = srcImageHeight // 8 * 8 + 8
 
-#检测长宽是否为8的整数倍，不为则补全到整数
-imageWidth = srcImageWidth
-imageHeight = srcImageHeight
-if(srcImageWidth%8!=0):
-    imageWidth = srcImageWidth//8*8 + 8
-if(srcImageHeight%8!=0):
-    imageHeight = srcImageHeight//8*8 + 8
+    print('added to: ', imageWidth, imageHeight)
+    addedImageMatrix = numpy.zeros((imageHeight, imageWidth, 3), dtype=numpy.uint8)
 
+    for y in range(srcImageHeight):
+        for x in range(srcImageWidth):
+            addedImageMatrix[y][x] = srcImageMatrix[y][x]
 
-print('added to: ',imageWidth,imageHeight)
-addedImageMatrix = numpy.zeros((imageHeight,imageWidth,3),dtype=numpy.uint8)
+    # Image._show(Image.fromarray(addedImageMatrix))
 
-for y in range(srcImageHeight):
-    for x in range(srcImageWidth):
-        addedImageMatrix[y][x] = srcImageMatrix[y][x]
+    # 转换为yuv
+    yuvImage = Image.fromarray(addedImageMatrix).convert('YCbCr')
+    print('yuvImage info:\n', yuvImage)
+    yuvImageMatrix = numpy.asarray(yuvImage)
+    # print('yuvImageMatrix:\n')
+    # for y in range(srcImageHeight):
+    #    for x in range(srcImageWidth):
+    #        print(yuvImageMatrix[y][x],end='')
+    #    print("\n",end='')
 
-#Image._show(Image.fromarray(addedImageMatrix))
+    # 分离三个通道并中心化
+    yuvImageMatrix = yuvImageMatrix.astype(numpy.int16)
+    yuvImageMatrix = yuvImageMatrix - 128
 
-#转换为yuv
-yuvImage = Image.fromarray(addedImageMatrix).convert('YCbCr')
-print('yuvImage info:\n',yuvImage)
-yuvImageMatrix = numpy.asarray(yuvImage)
-#print('yuvImageMatrix:\n')
-#for y in range(srcImageHeight):
-#    for x in range(srcImageWidth):
-#        print(yuvImageMatrix[y][x],end='')
-#    print("\n",end='')
+    yImageMatrix = yuvImageMatrix[:, :, 0]
+    uImageMatrix = yuvImageMatrix[:, :, 1]
+    vImageMatrix = yuvImageMatrix[:, :, 2]
 
-#分离三个通道并中心化
-yuvImageMatrix = yuvImageMatrix.astype(numpy.int16)
-yuvImageMatrix = yuvImageMatrix - 128
+    # print('yImageMatrix:\n',yImageMatrix)
+    # print('uImageMatrix:\n',uImageMatrix)
+    # print('vImageMatrix:\n',vImageMatrix)
 
-yImageMatrix = yuvImageMatrix[:,:,0]
-uImageMatrix = yuvImageMatrix[:,:,1]
-vImageMatrix = yuvImageMatrix[:,:,2]
+    # 设置品质因子
+    quality = 70
 
+    if (quality <= 0):
+        quality = 1
 
-#print('yImageMatrix:\n',yImageMatrix)
-#print('uImageMatrix:\n',uImageMatrix)
-#print('vImageMatrix:\n',vImageMatrix)
+    if (quality > 100):
+        quality = 100
 
-#设置品质因子
-quality = 70
+    if (quality < 50):
+        qualityScale = 5000 / quality
+    else:
+        qualityScale = 200 - quality * 2
 
-if(quality<=0):
-    quality = 1
+    luminanceQuantTbl = numpy.array(numpy.floor((std_luminance_quant_tbl * qualityScale + 50) / 100))
+    luminanceQuantTbl[luminanceQuantTbl == 0] = 1
+    luminanceQuantTbl = luminanceQuantTbl.reshape([8, 8])
+    print('luminanceQuantTbl:\n', luminanceQuantTbl)
+    chrominanceQuantTbl = numpy.array(numpy.floor((std_chrominance_quant_tbl * qualityScale + 50) / 100))
+    chrominanceQuantTbl[chrominanceQuantTbl == 0] = 1
+    chrominanceQuantTbl = chrominanceQuantTbl.reshape([8, 8])
+    print('chrominanceQuantTbl:\n', chrominanceQuantTbl)
 
-if(quality>100):
-    quality = 100
+    # 分块
+    blockSum = imageWidth // 8 * imageHeight // 8
 
-if(quality<50):
-    qualityScale = 5000 / quality
-else:
-    qualityScale = 200 - quality * 2
-
-luminanceQuantTbl = numpy.array(numpy.floor((std_luminance_quant_tbl*qualityScale + 50)/100))
-luminanceQuantTbl[luminanceQuantTbl==0] = 1
-luminanceQuantTbl = luminanceQuantTbl.reshape([8,8])
-print('luminanceQuantTbl:\n',luminanceQuantTbl)
-chrominanceQuantTbl = numpy.array(numpy.floor((std_chrominance_quant_tbl*qualityScale + 50)/100))
-chrominanceQuantTbl[chrominanceQuantTbl==0] = 1
-chrominanceQuantTbl = chrominanceQuantTbl.reshape([8,8])
-print('chrominanceQuantTbl:\n',chrominanceQuantTbl)
-
-#分块
-blockSum = imageWidth // 8 * imageHeight // 8
-blockNum = 0;
-yDC = numpy.zeros((blockSum),dtype = int)
-uDC = numpy.zeros((blockSum),dtype = int)
-vDC = numpy.zeros((blockSum),dtype = int)
-
-yDCBitStream = BitStream()
-uDCBitStream = BitStream()
-vDCBitStream = BitStream()
-
-yACBitStream = BitStream()
-uACBitStream = BitStream()
-vACBitStream = BitStream()
-
-#保存所有块的亮度DC值
-#但是需要注意，只有第0个是真正的DC值，后面的保存的都是和前者的差值
-print('blockSum = ',blockSum)
-for y in range(0, imageHeight, 8):
-    for x in range(0, imageWidth, 8):
-        print(y,x,' -> ',y+8,x+8)
-        yDctMatrix = fftpack.dct(yImageMatrix[y:y+8,x:x+8], norm='ortho')
-        uDctMatrix = fftpack.dct(yImageMatrix[y:y+8,x:x+8], norm='ortho')
-        vDctMatrix = fftpack.dct(yImageMatrix[y:y+8,x:x+8], norm='ortho')
-        # print('yDctMatrix:\n',yDctMatrix)
-        # print('uDctMatrix:\n',uDctMatrix)
-        # print('vDctMatrix:\n',vDctMatrix)
-
-        # 量化
-        # Although JPEG allows for the use of any quantization matrix, ISO has done extensive testing and developed a standard set of quantization values that cause impressive degrees of compression.
-
-        yQuantMatrix = numpy.rint(yDctMatrix / luminanceQuantTbl)
-        uQuantMatrix = numpy.rint(uDctMatrix / chrominanceQuantTbl)
-        vQuantMatrix = numpy.rint(vDctMatrix / chrominanceQuantTbl)
-
-        # print('yQuantMatrix:\n',yQuantMatrix)
-        # print('uQuantMatrix:\n',uQuantMatrix)
-        # print('vQuantMatrix:\n',vQuantMatrix)
-
-        # z字形遍历，转化为一维数组
-        yZCode = yQuantMatrix.reshape([64])[zigzagOrder]
-        uZCode = uQuantMatrix.reshape([64])[zigzagOrder]
-        vZCode = vQuantMatrix.reshape([64])[zigzagOrder]
-
-        if(blockNum==0):
-            yDC[blockNum] = yZCode[0]
-            uDC[blockNum] = uZCode[0]
-            vDC[blockNum] = vZCode[0]
-        else:
-            yDC[blockNum] = yZCode[0] - yDC[blockNum-1]
-            uDC[blockNum] = uZCode[0] - uDC[blockNum-1]
-            vDC[blockNum] = vZCode[0] - vDC[blockNum-1]
+    yDC = numpy.zeros((blockSum), dtype=int)
+    uDC = numpy.zeros((blockSum), dtype=int)
+    vDC = numpy.zeros((blockSum), dtype=int)
+    # 保存所有块的亮度DC值
+    # 但是需要注意，只有第0个是真正的DC值，后面的保存的都是和前者的差值
+    print('blockSum = ', blockSum)
 
 
 
-        # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
-        huffmanEncode.encodeACBlock(yACBitStream,yZCode[1:],1)
-        huffmanEncode.encodeACBlock(uACBitStream, uZCode[1:], 0)
-        huffmanEncode.encodeACBlock(vACBitStream, vZCode[1:], 0)
+    sosBitStream = BitStream()
 
-        blockNum = blockNum + 1
+    blockNum = 0
+    for y in range(0, imageHeight, 8):
+        for x in range(0, imageWidth, 8):
+            print(y, x, ' -> ', y + 8, x + 8)
+            yDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
+            uDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
+            vDctMatrix = fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho')
+            # print('yDctMatrix:\n',yDctMatrix)
+            # print('uDctMatrix:\n',uDctMatrix)
+            # print('vDctMatrix:\n',vDctMatrix)
 
-huffmanEncode.encodeDC(yACBitStream,yDC,1)
-huffmanEncode.encodeDC(uACBitStream, uDC, 0)
-huffmanEncode.encodeDC(vACBitStream, vDC, 0)
+            # 量化
+            # Although JPEG allows for the use of any quantization matrix, ISO has done extensive testing and developed a standard set of quantization values that cause impressive degrees of compression.
 
-jpegFile = open('output.jpg','wb+')
-# 图像开始
-jpegFile.write(hexToBytes('FFD8FFE000104A46494600010200000100010000'))
-# y量化表
-jpegFile.write(hexToBytes('FFDB004300'))
-jpegFile.write(bytes(std_luminance_quant_tbl.tolist()))
-# u/v量化表
-jpegFile.write(hexToBytes('FFDB004301'))
-jpegFile.write(bytes(std_chrominance_quant_tbl.tolist()))
-# 帧图像开始
-jpegFile.write(hexToBytes('FFC0001108'))
-hHex = hex(srcImageHeight)[2:]# 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
-while len(hHex)!=4:
-    hHex = '0' + hHex
+            yQuantMatrix = numpy.rint(yDctMatrix / luminanceQuantTbl)
+            uQuantMatrix = numpy.rint(uDctMatrix / chrominanceQuantTbl)
+            vQuantMatrix = numpy.rint(vDctMatrix / chrominanceQuantTbl)
 
-jpegFile.write(hexToBytes(hHex))
+            # print('yQuantMatrix:\n',yQuantMatrix)
+            # print('uQuantMatrix:\n',uQuantMatrix)
+            # print('vQuantMatrix:\n',vQuantMatrix)
 
-wHex = hex(srcImageWidth)[2:]  # 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
-while len(wHex) != 4:
-    wHex = '0' + wHex
+            # z字形遍历，转化为一维数组
+            yZCode = yQuantMatrix.reshape([64])[zigzagOrder]
+            uZCode = uQuantMatrix.reshape([64])[zigzagOrder]
+            vZCode = vQuantMatrix.reshape([64])[zigzagOrder]
+            yZCode = yZCode.astype(numpy.int)
+            uZCode = uZCode.astype(numpy.int)
+            vZCode = vZCode.astype(numpy.int)
 
-jpegFile.write(hexToBytes(wHex))
+            if (blockNum == 0):
+                yDC[blockNum] = yZCode[0]
+                uDC[blockNum] = uZCode[0]
+                vDC[blockNum] = vZCode[0]
+            else:
+                yDC[blockNum] = yZCode[0] - yDC[blockNum - 1]
+                uDC[blockNum] = uZCode[0] - uDC[blockNum - 1]
+                vDC[blockNum] = vZCode[0] - vDC[blockNum - 1]
 
-# yuv采样分别为22 22 22
-jpegFile.write(hexToBytes('03012200022201032201'))
+            # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(yDC[blockNum],1),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1)
 
-# huffman DC表0 y DC
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(uDC[blockNum],0),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0)
 
-# huffman DC表1 u/v DC
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(vDC[blockNum],0),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0)
 
-
-
-
-
-
-# 数据是一块一块的写， yDC yAC EOB uDC uAC EOB vDC vAC EOB
+            blockNum = blockNum + 1
 
 
+
+    jpegFile = open('output.jpg', 'wb+')
+    # 图像开始
+    jpegFile.write(huffmanEncode.hexToBytes('FFD8FFE000104A46494600010200000100010000'))
+    # y量化表
+    jpegFile.write(huffmanEncode.hexToBytes('FFDB004300'))
+    jpegFile.write(bytes(std_luminance_quant_tbl.tolist()))
+    # u/v量化表
+    jpegFile.write(huffmanEncode.hexToBytes('FFDB004301'))
+    jpegFile.write(bytes(std_chrominance_quant_tbl.tolist()))
+    # 帧图像开始
+    jpegFile.write(huffmanEncode.hexToBytes('FFC0001108'))
+    hHex = hex(srcImageHeight)[2:]  # 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
+    while len(hHex) != 4:
+        hHex = '0' + hHex
+
+    jpegFile.write(huffmanEncode.hexToBytes(hHex))
+
+    wHex = hex(srcImageWidth)[2:]  # 大于65536会出错，因为需要更高的位数。嫌麻烦，暂时不考虑
+    while len(wHex) != 4:
+        wHex = '0' + wHex
+
+    jpegFile.write(huffmanEncode.hexToBytes(wHex))
+
+    # yuv采样分别为22 22 22
+    jpegFile.write(huffmanEncode.hexToBytes('03012200022201032201'))
+
+    # huffman DC表0 y DC
+    jpegFile.write(huffmanEncode.DCLuminanceTableToBytes())
+
+    # huffman AC表0 y AC
+    jpegFile.write(huffmanEncode.ACLuminanceTableToBytes())
+
+    # huffman DC表1 u/v DC
+    jpegFile.write(huffmanEncode.DCChrominanceTableToBytes())
+
+    # huffman AC表1 u/v AC
+    jpegFile.write(huffmanEncode.ACChrominanceTableToBytes())
+
+    # SOS Start of Scan 编码后的数据
+    # 数据是一块一块的写， yDC yAC EOB uDC uAC EOB vDC vAC EOB
+    # 在encodeACBlock函数中，已经在AC后加入EOB了
+    sosLength = sosBitStream.__len__()
+    print(sosLength)
+    filledNum = 8 - sosLength % 8 #凑不够8的倍数时需要补全
+    if(filledNum!=0):
+        sosBitStream.write(numpy.ones([filledNum]).tolist(),bool)
+    print(sosBitStream.__len__())
+
+    bytesLength = sosBitStream.__len__()//8
+    bytesLength = bytesLength + 12
+    bytesLengthHex = hex(bytesLength)[2:]
+    while len(bytesLengthHex) != 4:
+        bytesLengthHex = '0' + bytesLengthHex
+    headList = []
+    headList.extend(([255, 218, int(bytesLengthHex[0:2], 16), int(bytesLengthHex[2:4], 16), 3, 1, 0, 2, 17, 3, 17, 0, 63, 0])) # FF DA XX XX(bytesLengthHex) 03 01 00 02 11 03 11 00 3F 00
+    jpegFile.write(bytes(headList))
+    jpegFile.write(sosBitStream.read(bytes))
+
+
+    jpegFile.write(bytes([255,217])) # FF D9
+    jpegFile.close()
+
+
+if __name__ == '__main__':
+    main()
 
 
