@@ -2,34 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.cache/v/cache/lastfailed" beforeDir="false" afterPath="$PROJECT_DIR$/.cache/v/cache/lastfailed" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/losslyImageCompression.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/losslyImageCompression.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/0.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/1.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.jpg.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1.jpg.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1024x1024.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/1024x1024.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/128x128.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/128x128.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/16x16.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/16x16.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/256x256.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/256x256.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/32x32.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/32x32.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/512x512.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/512x512.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/64x64.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/64x64.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/78x29.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/78x29.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/8x8.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/8x8.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/huffmanEncode.py" beforeDir="false" afterPath="$PROJECT_DIR$/huffmanEncode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/itu-t81.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/itu-t81.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lena.png" beforeDir="false" afterPath="$PROJECT_DIR$/lena.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output-1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output-64.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output-64.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output-64.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output-64.jpg.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.jpg.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.jpg.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="67" column="5" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
+            <state relative-caret-position="454">
+              <caret line="420" selection-start-line="420" selection-end-line="429" selection-end-column="76" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -55,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="1207" column="125" selection-start-line="1207" selection-start-column="125" selection-end-line="1207" selection-end-column="125" />
+            <state relative-caret-position="136">
+              <caret line="1825" column="22" selection-start-line="1825" selection-start-column="4" selection-end-line="1825" selection-end-column="22" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -67,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="215" column="4" lean-forward="true" selection-start-line="215" selection-start-column="4" selection-end-line="215" selection-end-column="4" />
+            <state relative-caret-position="150">
+              <caret line="76" column="40" lean-forward="true" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -104,6 +83,7 @@
       <find>acl</find>
       <find>encodeAC</find>
       <find>boollist</find>
+      <find>encodeaC</find>
     </findStrings>
     <replaceStrings>
       <replace>range</replace>
@@ -118,17 +98,17 @@
       <list>
         <option value="$PROJECT_DIR$/dc_ac_encode.py" />
         <option value="$PROJECT_DIR$/readList.py" />
-        <option value="$PROJECT_DIR$/huffmanEncode.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/huffmanEncode.py" />
         <option value="$PROJECT_DIR$/jpegEncoder.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1855" />
-    <option name="height" value="1084" />
+    <option name="y" value="392" />
+    <option name="width" value="1853" />
+    <option name="height" value="1076" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -288,15 +268,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
-    <editor active="true" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24959038" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3294979" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29497907" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29497907" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -381,20 +360,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="1207" column="125" selection-start-line="1207" selection-start-column="125" selection-end-line="1207" selection-end-column="125" />
+        <state relative-caret-position="454">
+          <caret line="420" selection-start-line="420" selection-end-line="429" selection-end-column="76" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="67" column="5" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
+        <state relative-caret-position="136">
+          <caret line="1825" column="22" selection-start-line="1825" selection-start-column="4" selection-end-line="1825" selection-end-column="22" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
@@ -403,8 +382,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="215" column="4" lean-forward="true" selection-start-line="215" selection-start-column="4" selection-end-line="215" selection-end-column="4" />
+        <state relative-caret-position="150">
+          <caret line="76" column="40" lean-forward="true" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
