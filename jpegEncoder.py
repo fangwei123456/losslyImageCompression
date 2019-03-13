@@ -38,7 +38,7 @@ zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,4
 
 def main():
     numpy.set_printoptions(threshold=numpy.inf)
-    srcFileName = './1.bmp'
+    srcFileName = './64x64.bmp'
     srcImage = Image.open(srcFileName)
     srcImageWidth, srcImageHeight = srcImage.size
     print('srcImageWidth = %d srcImageHeight = %d' % (srcImageWidth, srcImageHeight))
@@ -135,9 +135,10 @@ def main():
             yDctMatrix = fftpack.dct(fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
             uDctMatrix = fftpack.dct(fftpack.dct(uImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
             vDctMatrix = fftpack.dct(fftpack.dct(vImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
-            print('yDctMatrix:\n',yDctMatrix)
-            print('uDctMatrix:\n',uDctMatrix)
-            print('vDctMatrix:\n',vDctMatrix)
+            if(blockSum<=8):
+                print('yDctMatrix:\n',yDctMatrix)
+                print('uDctMatrix:\n',uDctMatrix)
+                print('vDctMatrix:\n',vDctMatrix)
 
             # 量化
             # Although JPEG allows for the use of any quantization matrix, ISO has done extensive testing and developed a standard set of quantization values that cause impressive degrees of compression.
@@ -145,10 +146,10 @@ def main():
             yQuantMatrix = numpy.rint(yDctMatrix / luminanceQuantTbl)
             uQuantMatrix = numpy.rint(uDctMatrix / chrominanceQuantTbl)
             vQuantMatrix = numpy.rint(vDctMatrix / chrominanceQuantTbl)
-
-            # print('yQuantMatrix:\n',yQuantMatrix)
-            # print('uQuantMatrix:\n',uQuantMatrix)
-            # print('vQuantMatrix:\n',vQuantMatrix)
+            if(blockSum<=8):
+                print('yQuantMatrix:\n',yQuantMatrix)
+                print('uQuantMatrix:\n',uQuantMatrix)
+                print('vQuantMatrix:\n',vQuantMatrix)
 
             # z字形遍历，转化为一维数组
             yZCode = yQuantMatrix.reshape([64])[zigzagOrder]

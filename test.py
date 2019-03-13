@@ -41,11 +41,9 @@ from scipy import fftpack
 #a.write([1],bool)
 #print(a)
 
-# https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossy/jpeg/dct.htm
-a = numpy.array([140,144,147,140,140,155,179,175,144,152,140,147,140,148,167,179,152,155,136,167,163,162,152,172,168,145,156,160,152,155,136,160,162,148,156,148,140,136,147,162,147,167,140,155,155,140,136,162,136,156,123,167,162,144,140,147,148,155,136,155,152,147,147,136])
-a.reshape([8,8])
-a.astype(numpy.int)
-#a = a - 128
-print(fftpack.dct(fftpack.dct(a,norm='ortho').T,norm='ortho').T)
+bs = BitStream()
+a = numpy.zeros([18],dtype=int)
+huffmanEncode.encodeACBlock(bs,a,1)
+print(bs)
 
 
