@@ -169,14 +169,14 @@ def main():
                 vDC[blockNum] = vZCode[0] - vDC[blockNum - 1]
 
             # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(yDC[blockNum],1),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(yDC[blockNum],1, 1),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1, 1)
 
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(uDC[blockNum],0),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(uDC[blockNum],0, 1),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0, 1)
 
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(vDC[blockNum],0),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(vDC[blockNum],0, 1),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0, 1)
 
             blockNum = blockNum + 1
 
@@ -184,7 +184,7 @@ def main():
 
     jpegFile = open('output.jpg', 'wb+')
     # 图像开始
-    jpegFile.write(huffmanEncode.hexToBytes('FFD8FFE000104A46494600010200000100010000'))
+    jpegFile.write(huffmanEncode.hexToBytes('FFD8FFE000104A46494600010100000100010000'))
     # y量化表
     jpegFile.write(huffmanEncode.hexToBytes('FFDB004300'))
     jpegFile.write(bytes(std_luminance_quant_tbl.tolist()))

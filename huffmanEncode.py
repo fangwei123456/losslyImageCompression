@@ -1179,7 +1179,7 @@ def ACChrominanceTableToBytes():
 
 
 #DC components are differentially coded as (SIZE,Value)
-def encodeDCToBoolList(value,isLuminance):
+def encodeDCToBoolList(value,isLuminance,debugMode = 0):
     boolList = []
     size = int(value).bit_length() # int(0).bit_length()=0
     if(isLuminance==1):
@@ -1201,9 +1201,14 @@ def encodeDCToBoolList(value,isLuminance):
             else:
                 codeList[i] = 1
     boolList = boolList + codeList
+    if(debugMode == 1):
+        if(isLuminance==1):
+            print('isLuminance=',isLuminance,'(size,value)=',size,value,'code=',DCLuminanceSizeToCode[size],codeList)
+        else:
+            print('isLuminance=', isLuminance, '(size,value)=', size, value, 'code=', DCChrominanceSizeToCode[size],codeList)
     return boolList
 
-def encodeACBlock(bitStream,ACArray,isLuminance):
+def encodeACBlock(bitStream,ACArray,isLuminance,debugMode = 0):
 
     i = 0
     maxI = numpy.size(ACArray)
@@ -1249,13 +1254,21 @@ def encodeACBlock(bitStream,ACArray,isLuminance):
                 else:
                     codeList[k] = 1
         bitStream.write(codeList, bool)
-        # print(ACLuminanceSizeToCode[runSizeStr],codeList)
+        if(debugMode == 1):
+            if(isLuminance==1):
+                print('isLuminance=',isLuminance,'(run,size,value)=',run,size,value,'code=',ACLuminanceSizeToCode[runSizeStr],codeList)
+            else:
+                print('isLuminance=',isLuminance,'(run,size,value)=',run,size,value,'code=',ACChrominanceToCode[runSizeStr],codeList)
         i = i + 1
 
     if (isLuminance == 1):
         bitStream.write(ACLuminanceSizeToCode['0/0'], bool) # EOB
+        if(debugMode == 1):
+            print('EOB',ACLuminanceSizeToCode['0/0'])
     else:
         bitStream.write(ACChrominanceToCode['0/0'], bool)
+        if(debugMode == 1):
+            print('EOB',ACChrominanceToCode['0/0'])
 
 
 
