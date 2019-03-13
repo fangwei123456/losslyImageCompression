@@ -430,7 +430,7 @@ ACLuminanceSizeToCode = {
 
 'E/A':[1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0],
 
-'F/0':[1,1,1,1,1,1,1,1,1,1,0,0,1],#ZRL
+'F/0':[1,1,1,1,1,1,1,1,0,0,1],#ZRL
 
 'F/1':[1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1],
 
@@ -605,7 +605,7 @@ ACLuminanceSizeToCodeList = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0] ,
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1] ,
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0] ,
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1] ,
+[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1] ,
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1] ,
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0] ,
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1] ,
@@ -1249,14 +1249,13 @@ def encodeACBlock(bitStream,ACArray,isLuminance):
                 else:
                     codeList[k] = 1
         bitStream.write(codeList, bool)
+        # print(ACLuminanceSizeToCode[runSizeStr],codeList)
         i = i + 1
 
     if (isLuminance == 1):
         bitStream.write(ACLuminanceSizeToCode['0/0'], bool) # EOB
     else:
         bitStream.write(ACChrominanceToCode['0/0'], bool)
-
-
 
 
 

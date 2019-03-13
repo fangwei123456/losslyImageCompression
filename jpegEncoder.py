@@ -38,7 +38,7 @@ zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,4
 
 def main():
     numpy.set_printoptions(threshold=numpy.inf)
-    srcFileName = './64x64.bmp'
+    srcFileName = './1.bmp'
     srcImage = Image.open(srcFileName)
     srcImageWidth, srcImageHeight = srcImage.size
     print('srcImageWidth = %d srcImageHeight = %d' % (srcImageWidth, srcImageHeight))

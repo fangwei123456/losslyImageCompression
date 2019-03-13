@@ -41,9 +41,7 @@ from scipy import fftpack
 #a.write([1],bool)
 #print(a)
 
-bs = BitStream()
-a = numpy.zeros([18],dtype=int)
-huffmanEncode.encodeACBlock(bs,a,1)
-print(bs)
+
+print(huffmanEncode.encodeDCToBoolList(-8,1))
 
 
