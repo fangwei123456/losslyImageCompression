@@ -1789,15 +1789,6 @@ def encodeACBlock(bitStream,ACArray,isLuminance,debugMode = 0):
                 print('isLuminance=',isLuminance,'(run,size,value)=',run,size,value,'code=',ACChrominanceToCode[runSizeStr],codeList)
         i = i + 1
 
-    if (isLuminance == 1):
-        bitStream.write(ACLuminanceSizeToCode['00'], bool) # EOB
-        if(debugMode == 1):
-            print('EOB',ACLuminanceSizeToCode['00'])
-    else:
-        bitStream.write(ACChrominanceToCode['00'], bool)
-        if(debugMode == 1):
-            print('EOB',ACChrominanceToCode['00'])
-
 
 
 
