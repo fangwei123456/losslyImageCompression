@@ -5,6 +5,7 @@ from bitstream import BitStream
 from numpy import *
 import huffmanEncode
 
+DEBUG_MODE = 1
 
 #http://home.elka.pw.edu.pl/~mmanowie/psap/neue/1%20JPEG%20Overview.htm
 #libjpeg::jcparam.c
@@ -71,13 +72,12 @@ def main():
     # Image._show(Image.fromarray(addedImageMatrix))
     yImage,uImage,vImage = Image.fromarray(addedImageMatrix).convert('YCbCr').split()
 
-
     yImageMatrix = numpy.asarray(yImage)
     uImageMatrix = numpy.asarray(uImage)
     vImageMatrix = numpy.asarray(vImage)
-    print(yImageMatrix)
-    print(uImageMatrix)
-    print(vImageMatrix)
+    #print(yImageMatrix)
+    #print(uImageMatrix)
+    #print(vImageMatrix)
 
     yImageMatrix = yImageMatrix - 127
     uImageMatrix = uImageMatrix - 127
@@ -162,7 +162,7 @@ def main():
             yQuantMatrix = numpy.rint(yDctMatrix / luminanceQuantTbl)
             uQuantMatrix = numpy.rint(uDctMatrix / chrominanceQuantTbl)
             vQuantMatrix = numpy.rint(vDctMatrix / chrominanceQuantTbl)
-            if(blockSum<=8):
+            if(DEBUG_MODE==1):
                 print('yQuantMatrix:\n',yQuantMatrix)
                 print('uQuantMatrix:\n',uQuantMatrix)
                 print('vQuantMatrix:\n',vQuantMatrix)
@@ -193,14 +193,14 @@ def main():
 
             # huffman编码，可以参考https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
 
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(dyDC[blockNum],1, 0),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1, 0)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(dyDC[blockNum],1, DEBUG_MODE),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1, DEBUG_MODE)
 
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(duDC[blockNum],0, 0),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0, 0)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(duDC[blockNum],0, DEBUG_MODE),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0, DEBUG_MODE)
 
-            sosBitStream.write(huffmanEncode.encodeDCToBoolList(dvDC[blockNum],0, 0),bool)
-            huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0, 0)
+            sosBitStream.write(huffmanEncode.encodeDCToBoolList(dvDC[blockNum],0, DEBUG_MODE),bool)
+            huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0, DEBUG_MODE)
 
             blockNum = blockNum + 1
 
