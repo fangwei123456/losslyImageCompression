@@ -1793,14 +1793,3 @@ def encodeACBlock(bitStream,ACArray,isLuminance,debugMode = 0):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
