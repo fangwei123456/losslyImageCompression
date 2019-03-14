@@ -4,13 +4,14 @@ import numpy
 from bitstream import BitStream
 from numpy import *
 import huffmanEncode
+import sys
 
-DEBUG_MODE = 0
+
 
 
 zigzagOrder = numpy.array([0,1,8,16,9,2,3,10,17,24,32,25,18,11,4,5,12,19,26,33,40,48,41,34,27,20,13,6,7,14,21,28,35,42,
                            49,56,57,50,43,36,29,22,15,23,30,37,44,51,58,59,52,45,38,31,39,46,53,60,61,54,47,55,62,63])
-#libjpeg::jcparam.c
+#std_quant_tbl from libjpeg::jcparam.c
 
 
 std_luminance_quant_tbl = numpy.array(
@@ -36,8 +37,24 @@ std_chrominance_quant_tbl = numpy.array(
 std_chrominance_quant_tbl = std_chrominance_quant_tbl.reshape([8,8])
 
 def main():
+
+    # inputBMPFileName outputJPEGFilename quality(from 1 to 100) DEBUGMODE(0 or 1)
+    # example:
+    # ./lena.bmp ./output.jpg 80 0
+
+    if(len(sys.argv)!=5):
+        print('inputBMPFileName outputJPEGFilename quality(from 1 to 100) DEBUGMODE(0 or 1)')
+        print('example:')
+        print('./lena.bmp ./output.jpg 80 0')
+        return
+
+    srcFileName = sys.argv[1]
+    outputJPEGFileName = sys.argv[2]
+    quality = float(sys.argv[3])
+    DEBUG_MODE = int(sys.argv[4])
+
+
     numpy.set_printoptions(threshold=numpy.inf)
-    srcFileName = './lena.bmp'
     srcImage = Image.open(srcFileName)
     srcImageWidth, srcImageHeight = srcImage.size
     print('srcImageWidth = %d srcImageHeight = %d' % (srcImageWidth, srcImageHeight))
@@ -78,7 +95,6 @@ def main():
     vImageMatrix = vImageMatrix - 127
 
 
-    quality = 100
     if(quality <= 0):
         quality = 1
     if(quality > 100):
@@ -89,13 +105,14 @@ def main():
         qualityScale = 200 - quality * 2
     luminanceQuantTbl = numpy.array(numpy.floor((std_luminance_quant_tbl * qualityScale + 50) / 100))
     luminanceQuantTbl[luminanceQuantTbl == 0] = 1
+    luminanceQuantTbl[luminanceQuantTbl > 255] = 255
     luminanceQuantTbl = luminanceQuantTbl.reshape([8, 8]).astype(int)
     print('luminanceQuantTbl:\n', luminanceQuantTbl)
     chrominanceQuantTbl = numpy.array(numpy.floor((std_chrominance_quant_tbl * qualityScale + 50) / 100))
     chrominanceQuantTbl[chrominanceQuantTbl == 0] = 1
+    chrominanceQuantTbl[chrominanceQuantTbl > 255] = 255
     chrominanceQuantTbl = chrominanceQuantTbl.reshape([8, 8]).astype(int)
     print('chrominanceQuantTbl:\n', chrominanceQuantTbl)
-
     blockSum = imageWidth // 8 * imageHeight // 8
 
     yDC = numpy.zeros([blockSum], dtype=int)
@@ -186,7 +203,7 @@ def main():
 
 
 
-    jpegFile = open('output.jpg', 'wb+')
+    jpegFile = open(outputJPEGFileName, 'wb+')
     # write jpeg header
     jpegFile.write(huffmanEncode.hexToBytes('FFD8FFE000104A46494600010100000100010000'))
     # write y Quantization Table
