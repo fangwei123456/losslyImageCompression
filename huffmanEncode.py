@@ -31,46 +31,6 @@ DCLuminanceSizeToCode = [
     [1,1,1,1,1,1,0],  #10 0A
     [1,1,1,1,1,1,1,0] #11 0B
 ]
-#将DC huffman Luminance 表保存成十六进制（字符串形式）
-def DCLuminanceTableToBytes():
-
-    #codeLength[0]保存比特数为1的数量
-    codeLength = numpy.zeros([16],dtype=int)
-    #category[0]保存比特为1的类别
-    category = []
-    for i in range(16):
-        category.append([])
-
-    for i in range(len(DCLuminanceSizeToCode)):
-        #比特数为currentLength 对应的类别为i
-        currentLength = len(DCLuminanceSizeToCode[i])
-        codeLength[currentLength-1] = codeLength[currentLength-1] + 1
-        category[currentLength-1].append(i)
-
-    tableList = codeLength.tolist()
-    for i in range(16):
-        if(len(category[i])>0):
-            category[i].sort()
-            tableList.extend(category[i])
-    #print(tableList)
-    #>>[0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    bytesLength = len(tableList) + 3
-    bytesLengthHex = hex(bytesLength)[2:]
-    while len(bytesLengthHex) != 4:
-        bytesLengthHex = '0' + bytesLengthHex
-    headList = []
-    headList.extend(([255,196,int(bytesLengthHex[0:2],16),int(bytesLengthHex[2:4],16),0])) # FF C4 00 1F 00
-    ret = headList + tableList
-    #print(ret)
-    #>>[255, 196, 0, 31, 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    return bytes(ret)
-
-
-
-
-
-
-
 
 
 
@@ -94,38 +54,6 @@ DCChrominanceSizeToCode = [
     [1,1,1,1,1,1,1,1,0]#11 0B
 ]
 
-def DCChrominanceTableToBytes():
-
-    #codeLength[0]保存比特数为1的数量
-    codeLength = numpy.zeros([16],dtype=int)
-    #category[0]保存比特为1的类别
-    category = []
-    for i in range(16):
-        category.append([])
-
-    for i in range(len(DCChrominanceSizeToCode)):
-        #比特数为currentLength 对应的类别为i
-        currentLength = len(DCChrominanceSizeToCode[i])
-        codeLength[currentLength-1] = codeLength[currentLength-1] + 1
-        category[currentLength-1].append(i)
-
-    tableList = codeLength.tolist()
-    for i in range(16):
-        if(len(category[i])>0):
-            category[i].sort()
-            tableList.extend(category[i])
-    #print(tableList)
-    #>>[0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    bytesLength = len(tableList) + 3
-    bytesLengthHex = hex(bytesLength)[2:]
-    while len(bytesLengthHex) != 4:
-        bytesLengthHex = '0' + bytesLengthHex
-    headList = []
-    headList.extend(([255,196,int(bytesLengthHex[0:2],16),int(bytesLengthHex[2:4],16),1])) # FF C4 00 B5 01
-    ret = headList + tableList
-    #print(ret)
-    #>>[255, 196, 0, 31, 1, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    return bytes(ret)
 
 ACLuminanceSizeToCode = {
 '01':[0,0],
@@ -940,39 +868,7 @@ ACLuminanceSizeToCodeList = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0]
 ]
 
-def ACLuminanceTableToBytes():
 
-    #codeLength[0]保存比特数为1的数量
-    codeLength = numpy.zeros([16],dtype=int)
-    #category[0]保存比特为1的类别
-    category = []
-    for i in range(16):
-        category.append([])
-
-
-    for i in range(len(ACLuminanceSizeToCodeList)):
-        #比特数为currentLength 对应的类别为i
-        currentLength = len(ACLuminanceSizeToCodeList[i])
-        codeLength[currentLength-1] = codeLength[currentLength-1] + 1
-        category[currentLength-1].append(i)
-
-    tableList = codeLength.tolist()
-    for i in range(16):
-        if(len(category[i])>0):
-            category[i].sort()
-            tableList.extend(category[i])
-    #print(tableList)
-
-    bytesLength = len(tableList) + 3
-    bytesLengthHex = hex(bytesLength)[2:]
-    while len(bytesLengthHex) != 4:
-        bytesLengthHex = '0' + bytesLengthHex
-    headList = []
-    headList.extend(([255,196,int(bytesLengthHex[0:2],16),int(bytesLengthHex[2:4],16),16])) # FF C4 00 B5 10
-    ret = headList + tableList
-    #print(ret)
-
-    return bytes(ret)
 
 ACChrominanceToCode = {
 '01':[0,0],
@@ -1787,39 +1683,7 @@ ACChrominanceToCodeList = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0]
 ]
 
-def ACChrominanceTableToBytes():
 
-    #codeLength[0]保存比特数为1的数量
-    codeLength = numpy.zeros([16],dtype=int)
-    #category[0]保存比特为1的类别
-    category = []
-    for i in range(16):
-        category.append([])
-
-
-    for i in range(len(ACChrominanceToCodeList)):
-        #比特数为currentLength 对应的类别为i
-        currentLength = len(ACChrominanceToCodeList[i])
-        codeLength[currentLength-1] = codeLength[currentLength-1] + 1
-        category[currentLength-1].append(i)
-
-    tableList = codeLength.tolist()
-    for i in range(16):
-        if(len(category[i])>0):
-            category[i].sort()
-            tableList.extend(category[i])
-    #print(tableList)
-
-    bytesLength = len(tableList) + 3
-    bytesLengthHex = hex(bytesLength)[2:]
-    while len(bytesLengthHex) != 4:
-        bytesLengthHex = '0' + bytesLengthHex
-    headList = []
-    headList.extend(([255,196,int(bytesLengthHex[0:2],16),int(bytesLengthHex[2:4],16),17])) # FF C4 00 B5 11
-    ret = headList + tableList
-    #print(ret)
-
-    return bytes(ret)
 
 
 #DC components are differentially coded as (SIZE,Value)
@@ -1861,7 +1725,7 @@ def encodeACBlock(bitStream,ACArray,isLuminance,debugMode = 0):
             break
         run = 0
 
-        #检查剩余是否全为0
+        # check if rest of ACArray are all zero. If so, just write EOB and return
         j = i
         while 1:
             if(ACArray[j]!=0):
@@ -1903,7 +1767,7 @@ def encodeACBlock(bitStream,ACArray,isLuminance,debugMode = 0):
             bitStream.write(ACChrominanceToCode[runSizeStr], bool)
 
 
-        if(value<=0):# if value==0, codeList = [], (SIZE,VALUE)=(SIZE)=EOB
+        if(value<=0):# if value==0, codeList = [], (SIZE,VALUE)=(SIZE,[])=EOB
             codeList = list(bin(value)[3:])
             for k in range(len(codeList)):
                 if (codeList[k] == '0'):
