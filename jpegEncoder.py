@@ -41,14 +41,19 @@ def main():
     # split y u v
     yImage,uImage,vImage = Image.fromarray(addedImageMatrix).convert('YCbCr').split()
 
-    yImageMatrix = numpy.asarray(yImage)
-    uImageMatrix = numpy.asarray(uImage)
-    vImageMatrix = numpy.asarray(vImage)
+    yImageMatrix = numpy.asarray(yImage).astype(int)
+    uImageMatrix = numpy.asarray(uImage).astype(int)
+    vImageMatrix = numpy.asarray(vImage).astype(int)
+    if(DEBUG_MODE==1):
+        print('yImageMatrix:\n', yImageMatrix)
+        print('uImageMatrix:\n', uImageMatrix)
+        print('vImageMatrix:\n', vImageMatrix)
 
 
     yImageMatrix = yImageMatrix - 127
     uImageMatrix = uImageMatrix - 127
     vImageMatrix = vImageMatrix - 127
+
 
     # y Quantization Table
     luminanceQuantTbl = numpy.array([
@@ -93,7 +98,7 @@ def main():
     blockNum = 0
     for y in range(0, imageHeight, 8):
         for x in range(0, imageWidth, 8):
-            print(y, x, ' -> ', y + 8, x + 8)
+            print('block (y,x): ',y, x, ' -> ', y + 8, x + 8)
             yDctMatrix = fftpack.dct(fftpack.dct(yImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
             uDctMatrix = fftpack.dct(fftpack.dct(uImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T
             vDctMatrix = fftpack.dct(fftpack.dct(vImageMatrix[y:y + 8, x:x + 8], norm='ortho').T, norm='ortho').T

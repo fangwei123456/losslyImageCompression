@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/huffmanEncode.py" beforeDir="false" afterPath="$PROJECT_DIR$/huffmanEncode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output.jpg" afterDir="false" />
     </list>
@@ -30,10 +28,16 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="872" selection-start-line="872" selection-end-line="872" />
+            <state relative-caret-position="-1030">
+              <caret lean-forward="true" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#522#853#0" />
+                <element signature="e#2204#2563#0" />
+                <element signature="e#3802#9972#0" />
+                <element signature="e#10002#15201#0" />
+                <element signature="e#16236#22361#0" />
+                <element signature="e#22389#27542#0" />
               </folding>
             </state>
           </provider>
@@ -42,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+            <state relative-caret-position="105">
+              <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -370,18 +374,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="872" selection-start-line="872" selection-end-line="872" />
+        <state relative-caret-position="-1030">
+          <caret lean-forward="true" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#522#853#0" />
+            <element signature="e#2204#2563#0" />
+            <element signature="e#3802#9972#0" />
+            <element signature="e#10002#15201#0" />
+            <element signature="e#16236#22361#0" />
+            <element signature="e#22389#27542#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+        <state relative-caret-position="105">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
