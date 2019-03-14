@@ -136,18 +136,30 @@ def main():
 
             # huffman encode https://www.impulseadventure.com/photo/jpeg-huffman-coding.html
             # encode yDC
+            if(DEBUG_MODE==1):
+                print("encode dyDC:",dyDC[blockNum])
             sosBitStream.write(huffmanEncode.encodeDCToBoolList(dyDC[blockNum],1, DEBUG_MODE),bool)
             # encode yAC
+            if (DEBUG_MODE == 1):
+                print("encode yAC:", yZCode[1:])
             huffmanEncode.encodeACBlock(sosBitStream, yZCode[1:], 1, DEBUG_MODE)
 
             # encode uDC
+            if(DEBUG_MODE==1):
+                print("encode duDC:",duDC[blockNum])
             sosBitStream.write(huffmanEncode.encodeDCToBoolList(duDC[blockNum],0, DEBUG_MODE),bool)
             # encode uAC
+            if (DEBUG_MODE == 1):
+                print("encode uAC:", uZCode[1:])
             huffmanEncode.encodeACBlock(sosBitStream, uZCode[1:], 0, DEBUG_MODE)
 
             # encode vDC
+            if(DEBUG_MODE==1):
+                print("encode dvDC:",dvDC[blockNum])
             sosBitStream.write(huffmanEncode.encodeDCToBoolList(dvDC[blockNum],0, DEBUG_MODE),bool)
             # encode uAC
+            if (DEBUG_MODE == 1):
+                print("encode vAC:", vZCode[1:])
             huffmanEncode.encodeACBlock(sosBitStream, vZCode[1:], 0, DEBUG_MODE)
 
             blockNum = blockNum + 1

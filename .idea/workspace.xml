@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/huffmanEncode.py" beforeDir="false" afterPath="$PROJECT_DIR$/huffmanEncode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="174" lean-forward="true" selection-start-line="174" selection-end-line="174" />
+            <state relative-caret-position="480">
+              <caret line="161" column="45" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -95,8 +93,8 @@
         <option value="$PROJECT_DIR$/dc_ac_encode.py" />
         <option value="$PROJECT_DIR$/readList.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/jpegEncoder.py" />
         <option value="$PROJECT_DIR$/huffmanEncode.py" />
+        <option value="$PROJECT_DIR$/jpegEncoder.py" />
       </list>
     </option>
   </component>
@@ -379,8 +377,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="174" lean-forward="true" selection-start-line="174" selection-end-line="174" />
+        <state relative-caret-position="480">
+          <caret line="161" column="45" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
