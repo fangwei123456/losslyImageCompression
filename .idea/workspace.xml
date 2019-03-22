@@ -2,9 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24466c4f-0179-4079-b409-e7088c3f16df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/losslyImageCompression.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/losslyImageCompression.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.jpg.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.jpg.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/78x29.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/itu-t81.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/jpegEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/jpegEncoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output-1.jpg.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output-1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.jpg.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,43 +32,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/losslyImageCompression$train.coverage" NAME="train Coverage Results" MODIFIED="1553266297963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/losslyImageCompression$imgResize.coverage" NAME="imgResize Coverage Results" MODIFIED="1553240260528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="420" selection-start-line="420" selection-end-line="429" selection-end-column="76" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="1716" column="14" lean-forward="true" selection-start-line="1716" selection-start-column="14" selection-end-line="1716" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-                <element signature="e#522#853#0" />
-                <element signature="e#2204#2563#0" />
-                <element signature="e#3802#9972#0" />
-                <element signature="e#10002#15201#0" />
-                <element signature="e#16236#22361#0" />
-                <element signature="e#22389#27542#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
+        <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+            <state relative-caret-position="412">
+              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -57,10 +51,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/numpy/core/__init__.py">
+        <entry file="file://$USER_HOME$/anaconda3/envs/pytorch-env/lib/python3.6/site-packages/torch/nn/modules/conv.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="214">
-              <caret line="1110" column="6" selection-start-line="1110" selection-start-column="6" selection-end-line="1110" selection-end-column="6" />
+              <caret line="319" selection-start-line="319" selection-end-line="319" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/numpy/core/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="431">
+              <caret line="103" column="11" lean-forward="true" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda3/envs/pytorch-env/lib/python3.6/site-packages/torch/nn/functional.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="116">
+              <caret line="420" column="15" selection-start-line="420" selection-start-column="4" selection-end-line="420" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../hwocr/readData.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="68" column="73" selection-start-line="68" selection-start-column="61" selection-end-line="68" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -95,6 +116,7 @@
       <find>boollist</find>
       <find>encodeaC</find>
       <find>tobytes</find>
+      <find>abs</find>
     </findStrings>
     <replaceStrings>
       <replace>range</replace>
@@ -109,9 +131,12 @@
       <list>
         <option value="$PROJECT_DIR$/dc_ac_encode.py" />
         <option value="$PROJECT_DIR$/readList.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/huffmanEncode.py" />
         <option value="$PROJECT_DIR$/jpegEncoder.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/createBMP.py" />
+        <option value="$PROJECT_DIR$/imgResize.py" />
+        <option value="$PROJECT_DIR$/train.py" />
       </list>
     </option>
   </component>
@@ -121,13 +146,14 @@
     <option name="width" value="1853" />
     <option name="height" value="1076" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -139,11 +165,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -157,7 +185,51 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.jpegEncoder">
+  <component name="RunManager" selected="Python.train">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="losslyImageCompression" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="imgResize" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="losslyImageCompression" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/imgResize.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="jpegEncoder" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="losslyImageCompression" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -170,8 +242,9 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jpegEncoder.py" />
-      <option name="PARAMETERS" value="./lena.bmp ./output.jpg 10 0" />
+      <option name="PARAMETERS" value="./lena.bmp ./output.jpg 99 0" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -191,6 +264,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/readList.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -212,6 +286,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -221,38 +296,47 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in dc_ac_encode.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="losslyImageCompression" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/dc_ac_encode.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.jpegEncoder" />
       <item itemvalue="Python.readList" />
       <item itemvalue="Python.test" />
-      <item itemvalue="Python tests.pytest in dc_ac_encode.py" />
+      <item itemvalue="Python.imgResize" />
+      <item itemvalue="Python.train" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.jpegEncoder" />
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.imgResize" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.jpegEncoder" />
         <item itemvalue="Python.readList" />
-        <item itemvalue="Python tests.pytest in dc_ac_encode.py" />
       </list>
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -261,6 +345,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1551835304899</updated>
+      <workItem from="1552991111310" duration="366000" />
+      <workItem from="1552991550657" duration="3433000" />
+      <workItem from="1553166746416" duration="325000" />
+      <workItem from="1553239305311" duration="2826000" />
+      <workItem from="1553243950783" duration="660000" />
+      <workItem from="1553250250620" duration="3462000" />
+      <workItem from="1553254285328" duration="9350000" />
     </task>
     <servers />
   </component>
@@ -275,6 +366,9 @@
       <configuration name="pytest in dc_ac_encode.py" configurationId="tests" />
     </history-entry>
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="20422000" />
+  </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -288,7 +382,7 @@
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24959038" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2728279" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -301,11 +395,20 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3294979" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3294979" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.3294979" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.36610878" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.36506277" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.3294979" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
+      <window_info anchor="right" x="0" y="0" width="413" height="884" id="Documentation" order="5" side_tool="true" weight="0.32982844" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="setValue">
@@ -356,9 +459,7 @@
     <entry file="file://$PROJECT_DIR$/128x128.bmp">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/78x29.bmp">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/78x29.bmp" />
     <entry file="file://$PROJECT_DIR$/1.b" />
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/bitstream.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/1291269438/numpy/core/multiarray.py">
@@ -379,42 +480,89 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="420" selection-start-line="420" selection-end-line="429" selection-end-column="76" />
+        <state relative-caret-position="556">
+          <caret line="262" selection-start-line="262" selection-end-line="262" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1024x1024.bmp">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createBMP.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/1291269438/cv2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="7283" column="4" selection-start-line="7283" selection-start-column="4" selection-end-line="7283" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/imgResize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#8#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/huffmanEncode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="1716" column="14" lean-forward="true" selection-start-line="1716" selection-start-column="14" selection-end-line="1716" selection-end-column="14" />
+        <state relative-caret-position="35">
+          <caret line="1693" column="57" lean-forward="true" selection-start-line="1693" selection-start-column="57" selection-end-line="1693" selection-end-column="57" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
             <element signature="e#522#853#0" />
-            <element signature="e#2204#2563#0" />
-            <element signature="e#3802#9972#0" />
-            <element signature="e#10002#15201#0" />
-            <element signature="e#16236#22361#0" />
-            <element signature="e#22389#27542#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../hwocr/readData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="68" column="73" selection-start-line="68" selection-start-column="61" selection-end-line="68" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/pytorch-env/lib/python3.6/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="420" column="15" selection-start-line="420" selection-start-column="4" selection-end-line="420" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/pytorch-env/lib/python3.6/site-packages/torch/__init__.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="6" column="11" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/numpy/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="1110" column="6" selection-start-line="1110" selection-start-column="6" selection-end-line="1110" selection-end-column="6" />
+        <state relative-caret-position="431">
+          <caret line="103" column="11" lean-forward="true" selection-start-line="103" selection-start-column="11" selection-end-line="103" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jpegEncoder.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/pytorch-env/lib/python3.6/site-packages/torch/nn/modules/conv.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+        <state relative-caret-position="214">
+          <caret line="319" selection-start-line="319" selection-end-line="319" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>

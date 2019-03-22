@@ -240,11 +240,9 @@ def main():
     # SOS Start of Scan
     # yDC yAC uDC uAC vDC vAC
     sosLength = sosBitStream.__len__()
-    print(sosLength)
     filledNum = 8 - sosLength % 8
     if(filledNum!=0):
         sosBitStream.write(numpy.ones([filledNum]).tolist(),bool)
-    print(sosBitStream.__len__())
 
     jpegFile.write(bytes([255, 218, 0, 12, 3, 1, 0, 2, 17, 3, 17, 0, 63, 0])) # FF DA 00 0C 03 01 00 02 11 03 11 00 3F 00
 
@@ -262,6 +260,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 
 
 
