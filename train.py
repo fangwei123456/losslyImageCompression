@@ -84,7 +84,7 @@ class encodeNet(nn.Module):
 
 
 # 读取所有图片 存入trainData
-imgNum = 25
+imgNum = 26
 imgData = numpy.empty([imgNum,512,512,3])
 
 for i in range(imgNum):
