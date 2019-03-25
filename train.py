@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import torch.autograd
 import torch.optim
 
-class quantize(torch.autograd.Function): # 量化函数
+class Quantize(torch.autograd.Function): # 量化函数
     @staticmethod
     def forward(ctx, input):
         # ctx.save_for_backward(input)
@@ -17,16 +17,14 @@ class quantize(torch.autograd.Function): # 量化函数
     @staticmethod
     def backward(ctx, grad_output):
         # input = ctx.saved_tensors[0]
-        grad_input = None
-        if(ctx.needs_input_grad[0]):
-            grad_input = grad_output
+        grad_input = grad_output
         return grad_input
 
-
-class encodeNet(nn.Module):
+class EncodeNet(nn.Module):
     def __init__(self):
-        super(encodeNet, self).__init__()
-        # 输入为n*512*512*3
+        super(EncodeNet, self).__init__()
+        # 输入为n*3*512*512
+        # 输出为n*100*32*32
 
         self.conv0 = nn.Conv2d(3, 128, 63)
         self.bn0 = nn.BatchNorm2d(128)
@@ -45,45 +43,84 @@ class encodeNet(nn.Module):
     def forward(self, x):
 
         x = F.leaky_relu(self.bn0(self.conv0(x)))
-        x = F.interpolate(x, scale_factor=0.6, mode='bilinear') # n*128*270*270
+        x = F.interpolate(x, (400,400), mode='bilinear')
 
         xAvg = self.bnA(self.convA(x))
-        xAvg = F.avg_pool2d(xAvg, 3, 1) # n*100*268*268
-        xAvg = F.interpolate(xAvg, (24,24), mode='bilinear') # n*100*24*24
+        xAvg = F.avg_pool2d(xAvg, 3, 1)
+        xAvg = F.interpolate(xAvg, (32,32), mode='bilinear')
 
         x = F.leaky_relu(self.bn1(self.conv1(x)))
-        x = F.interpolate(x, scale_factor=0.6, mode='bilinear')  # n*128*144*144
+        x = F.interpolate(x, (256,256), mode='bilinear')
 
         x = F.leaky_relu(self.bn2(self.conv2(x)))
-        x = F.interpolate(x, scale_factor=0.6, mode='bilinear')  # n*128*78*78
+        x = F.interpolate(x, (128,128), mode='bilinear')
 
         x = F.leaky_relu(self.bn3(self.conv3(x)))
-        x = F.interpolate(x, scale_factor=0.6, mode='bilinear')  # n*128*33*43
+        x = F.interpolate(x, (64,64), mode='bilinear')
 
         x = F.leaky_relu(self.bn4(self.conv4(x)))
-        x = F.interpolate(x, scale_factor=0.6, mode='bilinear')  # n*100*24*24
+        x = F.interpolate(x, (32,32), mode='bilinear')
 
-        x = x + xAvg
-
-        x = (input + 0.5) * 255
 
         return x
 
+class DecodeNet(nn.Module):
+    def __init__(self):
+        super(DecodeNet, self).__init__()
+        # 输入为n*100*32*32
+        # 输出为n*3*512*512
+
+        self.conv0 = nn.Conv2d(100, 128, 3)
+        self.bn0 = nn.BatchNorm2d(128)
+        self.conv1 = nn.Conv2d(128, 128, 7)
+        self.bn1 = nn.BatchNorm2d(128)
+        self.conv2 = nn.Conv2d(128, 128, 15)
+        self.bn2 = nn.BatchNorm2d(128)
+        self.conv3 = nn.Conv2d(128, 128, 31)
+        self.bn3 = nn.BatchNorm2d(128)
+        self.conv4 = nn.Conv2d(128, 3, 63)
+        self.bn4 = nn.BatchNorm2d(3)
+
+        self.convA = nn.Conv2d(128, 3, 1)
+        self.bnA = nn.BatchNorm2d(3)
+
+    def forward(self, x):
+        x = F.leaky_relu(self.bn0(self.conv0(x)))
+        x = F.interpolate(x, (64,64), mode='bilinear')
+
+        xAvg = self.bnA(self.convA(x))
+        xAvg = F.avg_pool2d(xAvg, 3, 1)
+        xAvg = F.interpolate(xAvg, (512,512), mode='bilinear')
+
+        x = F.leaky_relu(self.bn1(self.conv1(x)))
+        x = F.interpolate(x, (128,128), mode='bilinear')
+
+        x = F.leaky_relu(self.bn2(self.conv2(x)))
+        x = F.interpolate(x, (256,256), mode='bilinear')
+
+        x = F.leaky_relu(self.bn3(self.conv3(x)))
+        x = F.interpolate(x, (400,400), mode='bilinear')
+
+        x = F.leaky_relu(self.bn4(self.conv4(x)))
+        x = F.interpolate(x, (512,512), mode='bilinear')
+
+        return x
+
+class cNet(nn.Module):
+    def __init__(self):
+        super(cNet, self).__init__()
+        self.enc = EncodeNet()
+        self.dec = DecodeNet()
+
+    def forward(self, x):
+        y = self.enc(x)
+        return self.dec(y)
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-# 读取所有图片 存入trainData
+torch.cuda.set_device(11)
 imgNum = 26
 imgData = numpy.empty([imgNum,512,512,3])
 
@@ -93,23 +130,47 @@ for i in range(imgNum):
 
 imgData = imgData / 255  - 0.5 # 归一化到[-0.5,0.5]
 imgData = imgData.transpose(0,3,1,2) # 转换为n*3*512*512
-trainData = torch.from_numpy(imgData).float()
-print(trainData.shape,trainData.dtype)
 
-encoder = encodeNet()
 
+net = cNet().cuda()
 criterion = nn.MSELoss()
-optimizer = torch.optim.SGD(encoder.parameters(), lr=0.001, momentum=0.9)
-running_loss = 0.0
+optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+posL = 0
+posR = 0
+for i in range(1000):
+    posR = min(26, posL+9)
+    print(posL, posR)
+    trainData = torch.from_numpy(imgData[posL:posR]).float().cuda()
+    posL = posR
+    if(posL==26):
+        posL = 0
 
-for i in range(10):
     optimizer.zero_grad()
-    outputs = encoder(trainData)
-    loss = criterion(outputs, trainData)
+    output = net(trainData)
+    loss = criterion(output,trainData)
+    print(i,loss)
     loss.backward()
     optimizer.step()
-    running_loss += loss.item()
-    print(running_loss)
+    if(i%10==0):
+        torch.save(net, './models/1.pkl')
+
+'''
+newImgData = output.cpu().detach().numpy().transpose(0,2,3,1) # 转换为n*512*512*3
+newImgData = (newImgData + 0.5)*255
+newImgData[newImgData<0] = 0
+newImgData[newImgData>255] = 255
+newImgData = newImgData.astype(numpy.uint8)
+for i in range(imgNum):
+
+    img = Image.fromarray(newImgData[i])
+    img.save('./newImg/' + str(i) + '.bmp')
+
+'''
+
+
+
+
+
 
 
 
