@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.autograd
 import torch.optim
+import sys
+import os
 
 
 class Quantize(torch.autograd.Function): # 量化函数
@@ -41,24 +43,17 @@ class EncodeNet(nn.Module):
 
         x = F.leaky_relu(self.bn128(self.conv0(x))) # n*128*512*512
 
-        xA = F.interpolate(x, (400,400), mode='bilinear') # n*128*400*400
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.interpolate(x, (400,400), mode='bilinear') # n*128*400*400
-        x = x + xA
-
         xA = F.interpolate(x, (256, 256), mode='bilinear')  # n*128*256*256
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
         x = F.interpolate(x, (256, 256), mode='bilinear') # n*128*256*256
         x = x + xA
 
         xA = F.interpolate(x, (128, 128), mode='bilinear')  # n*128*128*128
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
         x = F.interpolate(x, (128, 128), mode='bilinear') # n*128*128*128
         x = x + xA
 
@@ -69,7 +64,7 @@ class EncodeNet(nn.Module):
         x = F.interpolate(x, (64, 64), mode='bilinear') # n*128*64*64
         x = x + xA
 
-        x = F.leaky_relu(self.conv3(x)) # n*64*64*64
+        x = F.interpolate(F.leaky_relu(self.conv3(x)), (64, 64), mode='bilinear') # n*64*64*64
 
 
 
@@ -85,8 +80,8 @@ class DecodeNet(nn.Module):
 
         self.conv0 = nn.Conv2d(64, 128, 3)
 
-        self.conv1 = nn.Conv2d(128, 128, 3)
-        self.conv2 = nn.Conv2d(128, 128, 7)
+        self.conv1 = nn.Conv2d(128, 128, 7)
+        self.conv2 = nn.Conv2d(128, 128, 3)
 
         self.conv3 = nn.Conv2d(128, 3, 7)
 
@@ -95,8 +90,33 @@ class DecodeNet(nn.Module):
 
     def forward(self, x):
 
+        x = F.leaky_relu(self.bn128(self.conv0(x))) # n*128*64*64
+
+        xA = F.interpolate(x, (128,128), mode='bilinear') # n*128*128*128
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.interpolate(x, (128,128), mode='bilinear') # n*128*128*128
+        x = x + xA
+
+        xA = F.interpolate(x, (256, 256), mode='bilinear')  # n*128*256*256
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.interpolate(x, (256, 256), mode='bilinear') # n*128*256*256
+        x = x + xA
+
+        xA = F.interpolate(x, (512, 512), mode='bilinear')  # n*128*512*512
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.interpolate(x, (512, 512), mode='bilinear') # n*128*512*512
+        x = x + xA
+
+        x = F.interpolate(F.leaky_relu(self.conv3(x)), (512, 512), mode='bilinear') # n*3*512*512
 
         return x
+
 
 class cNet(nn.Module):
     def __init__(self):
@@ -110,12 +130,13 @@ class cNet(nn.Module):
 
 
 
-torch.cuda.set_device(11)
-net = torch.load('./models/1.pkl').cuda()
 
-imgNum = 26
+torch.cuda.set_device(int(sys.argv[1]))
+net = torch.load('./models/2.pkl').cuda()
 
-for i in range(imgNum):
+imgNum = os.listdir('./512bmp').__len__()
+j = 0
+for i in range(0,imgNum,8):
     print(i)
     img = Image.open('./512bmp/' + str(i) + '.bmp')
     imgData = numpy.asarray(img).astype(float)
@@ -130,4 +151,5 @@ for i in range(imgNum):
     newImgData[newImgData > 255] = 255
     newImgData = newImgData.astype(numpy.uint8)
     img = Image.fromarray(newImgData[0])
-    img.save('./newImg/' + str(i) + '.bmp')
+    img.save('./newImg/' + str(j) + '.bmp')
+    j = j + 1
