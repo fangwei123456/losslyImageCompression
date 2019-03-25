@@ -25,42 +25,53 @@ class EncodeNet(nn.Module):
     def __init__(self):
         super(EncodeNet, self).__init__()
         # 输入为n*3*512*512
-        # 输出为n*100*32*32
+        # 输出为n*64*64*64
 
-        self.conv0 = nn.Conv2d(3, 128, 63)
-        self.bn0 = nn.BatchNorm2d(128)
-        self.conv1 = nn.Conv2d(128, 128, 31)
-        self.bn1 = nn.BatchNorm2d(128)
-        self.conv2 = nn.Conv2d(128, 128, 15)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.conv3 = nn.Conv2d(128, 128, 7)
-        self.bn3 = nn.BatchNorm2d(128)
-        self.conv4 = nn.Conv2d(128, 100, 3)
-        self.bn4 = nn.BatchNorm2d(100)
+        self.conv0 = nn.Conv2d(3, 128, 7)
 
-        self.convA = nn.Conv2d(128, 100, 1)
-        self.bnA = nn.BatchNorm2d(100)
+        self.conv1 = nn.Conv2d(128, 128, 7)
+        self.conv2 = nn.Conv2d(128, 128, 3)
+
+        self.conv3 = nn.Conv2d(128, 64, 3)
+
+        self.bn128 = nn.BatchNorm2d(128)
+
 
     def forward(self, x):
 
-        x = F.leaky_relu(self.bn0(self.conv0(x)))
-        x = F.interpolate(x, (400,400), mode='bilinear')
+        x = F.leaky_relu(self.bn128(self.conv0(x))) # n*128*512*512
 
-        xAvg = self.bnA(self.convA(x))
-        xAvg = F.avg_pool2d(xAvg, 3, 1)
-        xAvg = F.interpolate(xAvg, (32,32), mode='bilinear')
+        xA = F.interpolate(x, (400,400), mode='bilinear') # n*128*400*400
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = F.interpolate(x, (400,400), mode='bilinear') # n*128*400*400
+        x = x + xA
 
-        x = F.leaky_relu(self.bn1(self.conv1(x)))
-        x = F.interpolate(x, (256,256), mode='bilinear')
+        xA = F.interpolate(x, (256, 256), mode='bilinear')  # n*128*256*256
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.interpolate(x, (256, 256), mode='bilinear') # n*128*256*256
+        x = x + xA
 
-        x = F.leaky_relu(self.bn2(self.conv2(x)))
-        x = F.interpolate(x, (128,128), mode='bilinear')
+        xA = F.interpolate(x, (128, 128), mode='bilinear')  # n*128*128*128
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.interpolate(x, (128, 128), mode='bilinear') # n*128*128*128
+        x = x + xA
 
-        x = F.leaky_relu(self.bn3(self.conv3(x)))
-        x = F.interpolate(x, (64,64), mode='bilinear')
+        xA = F.interpolate(x, (64, 64), mode='bilinear')  # n*128*64*64
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = F.interpolate(x, (64, 64), mode='bilinear') # n*128*64*64
+        x = x + xA
 
-        x = F.leaky_relu(self.bn4(self.conv4(x)))
-        x = F.interpolate(x, (32,32), mode='bilinear')
+        x = F.leaky_relu(self.conv3(x)) # n*64*64*64
+
+
 
 
         return x
@@ -68,42 +79,22 @@ class EncodeNet(nn.Module):
 class DecodeNet(nn.Module):
     def __init__(self):
         super(DecodeNet, self).__init__()
-        # 输入为n*100*32*32
+
+        # 输入为n*64*64*64
         # 输出为n*3*512*512
 
-        self.conv0 = nn.Conv2d(100, 128, 3)
-        self.bn0 = nn.BatchNorm2d(128)
-        self.conv1 = nn.Conv2d(128, 128, 7)
-        self.bn1 = nn.BatchNorm2d(128)
-        self.conv2 = nn.Conv2d(128, 128, 15)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.conv3 = nn.Conv2d(128, 128, 31)
-        self.bn3 = nn.BatchNorm2d(128)
-        self.conv4 = nn.Conv2d(128, 3, 63)
-        self.bn4 = nn.BatchNorm2d(3)
+        self.conv0 = nn.Conv2d(64, 128, 3)
 
-        self.convA = nn.Conv2d(128, 3, 1)
-        self.bnA = nn.BatchNorm2d(3)
+        self.conv1 = nn.Conv2d(128, 128, 3)
+        self.conv2 = nn.Conv2d(128, 128, 7)
+
+        self.conv3 = nn.Conv2d(128, 3, 7)
+
+        self.bn128 = nn.BatchNorm2d(128)
+
 
     def forward(self, x):
-        x = F.leaky_relu(self.bn0(self.conv0(x)))
-        x = F.interpolate(x, (64,64), mode='bilinear')
 
-        xAvg = self.bnA(self.convA(x))
-        xAvg = F.avg_pool2d(xAvg, 3, 1)
-        xAvg = F.interpolate(xAvg, (512,512), mode='bilinear')
-
-        x = F.leaky_relu(self.bn1(self.conv1(x)))
-        x = F.interpolate(x, (128,128), mode='bilinear')
-
-        x = F.leaky_relu(self.bn2(self.conv2(x)))
-        x = F.interpolate(x, (256,256), mode='bilinear')
-
-        x = F.leaky_relu(self.bn3(self.conv3(x)))
-        x = F.interpolate(x, (400,400), mode='bilinear')
-
-        x = F.leaky_relu(self.bn4(self.conv4(x)))
-        x = F.interpolate(x, (512,512), mode='bilinear')
 
         return x
 
@@ -134,7 +125,7 @@ for i in range(imgNum):
     trainData = torch.from_numpy(imgData).float().cuda()
     output = net(trainData)
     newImgData = output.cpu().detach().numpy().transpose(0, 2, 3, 1)  # 转换为n*512*512*3
-    newImgData = (newImgData + 0.5) * 255
+    newImgData = newImgData * 255
     newImgData[newImgData < 0] = 0
     newImgData[newImgData > 255] = 255
     newImgData = newImgData.astype(numpy.uint8)
