@@ -7,7 +7,6 @@ import torch.autograd
 import torch.optim
 import sys
 import os
-import time
 
 class Quantize(torch.autograd.Function): # 量化函数
     @staticmethod
@@ -23,6 +22,7 @@ class Quantize(torch.autograd.Function): # 量化函数
         grad_input = grad_output
         return grad_input
 
+
 class EncodeNet(nn.Module):
     def __init__(self):
         super(EncodeNet, self).__init__()
@@ -37,30 +37,45 @@ class EncodeNet(nn.Module):
         self.conv3 = nn.Conv2d(128, 64, 3)
 
         self.bn128 = nn.BatchNorm2d(128)
+        self.bn64 = nn.BatchNorm2d(64)
+
+
 
 
     def forward(self, x):
-
-        x = F.leaky_relu(self.bn128(self.conv0(x))) # n*128*256*256
+        x = self.conv0(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3)) # n*128*256*256
 
         xA = F.interpolate(x, (128, 128), mode='bilinear')  # n*128*128*128
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = self.conv1(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv1(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv1(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
         x = F.interpolate(x, (128, 128), mode='bilinear') # n*128*128*128
         x = x + xA
 
         xA = F.interpolate(x, (64, 64), mode='bilinear')  # n*128*64*64
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = self.conv2(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv2(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv2(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
         x = F.interpolate(x, (64, 64), mode='bilinear') # n*128*64*64
         x = x + xA
 
-        x = F.interpolate(F.leaky_relu(self.conv3(x)), (64, 64), mode='bilinear') # n*64*64*64
-
-
-
+        x = self.conv3(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn64(x)
+        x = F.interpolate(x, (64, 64), mode='bilinear') # n*64*64*64
 
         return x
 
@@ -79,28 +94,43 @@ class DecodeNet(nn.Module):
         self.conv3 = nn.Conv2d(128, 3, 7)
 
         self.bn128 = nn.BatchNorm2d(128)
+        self.bn3 = nn.BatchNorm2d(3)
 
 
     def forward(self, x):
-
-        x = F.leaky_relu(self.bn128(self.conv0(x))) # n*128*64*64
+        x = self.conv0(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3)) # n*128*64*64
 
         xA = F.interpolate(x, (128,128), mode='bilinear') # n*128*128*128
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
-        x = F.leaky_relu(self.bn128(self.conv2(x)))
+        x = self.conv2(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv2(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv2(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
         x = F.interpolate(x, (128,128), mode='bilinear') # n*128*128*128
         x = x + xA
 
         xA = F.interpolate(x, (256, 256), mode='bilinear')  # n*128*256*256
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
-        x = F.leaky_relu(self.bn128(self.conv1(x)))
+        x = self.conv1(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv1(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
+        x = self.conv1(x)
+        x = F.leaky_relu(x * (torch.norm(x) + 1e-3))
+        x = self.bn128(x)
         x = F.interpolate(x, (256, 256), mode='bilinear') # n*128*256*256
         x = x + xA
 
-        x = F.interpolate(F.leaky_relu(self.conv3(x)), (256, 256), mode='bilinear') # n*1*256*256
-
+        x = self.conv3(x)
+        x = F.leaky_relu(x / (torch.norm(x) + 1e-3))
+        x = self.bn3(x)
+        x = F.interpolate(x, (256, 256), mode='bilinear') # n*3*256*256
         return x
 
 
@@ -162,8 +192,7 @@ posR = 0
 minLoss = torch.zeros(1).cuda()
 
 for i in range(int(sys.argv[5])):
-    tStart = time.time()
-    posR = min(imgNum, posL+2)
+    posR = min(imgNum, posL+8)
     trainData = torch.from_numpy(imgData[posL:posR]).float().cuda()
     posL = posR
     if(posL==imgNum):
@@ -181,7 +210,8 @@ for i in range(int(sys.argv[5])):
             minLoss = loss
             torch.save(net, './models/3.pkl')
             print('save ./models/3.pkl')
-    print(i,time.time() - tStart,loss)
+    print(i)
+    print(loss, minLoss)
 '''
 newImgData = output.cpu().detach().numpy().transpose(0,2,3,1)
 newImgData = newImgData*255
