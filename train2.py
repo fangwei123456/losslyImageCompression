@@ -22,6 +22,44 @@ class Quantize(torch.autograd.Function): # 量化函数
         grad_input = grad_output
         return grad_input
 
+# 作用于x: n*a*b*c时 要求features=a*b*c
+class NormNet(nn.Module):
+    def __init__(self, features):
+        super(NormNet, self).__init__()
+        self.linear = nn.Linear(features,features)
+
+    def forward(self, input):
+        # x: n*a*b*c
+        input_shape = input.shape
+        output = torch.empty_like(input)
+        for i in range(input_shape[0]):
+            x = input[i].reshape(-1) # 变成一维
+            x2 = torch.pow(x,2)
+            scale = self.linear(x2)
+            x = x / scale.sqrt()
+            output[i] = x.reshape(input_shape[1:]) # 恢复成三维
+
+        return output
+
+
+# 作用于x: n*a*b*c时 要求features=a*b*c
+class TNormNet(nn.Module):
+    def __init__(self, features):
+        super(TNormNet, self).__init__()
+        self.linear = nn.Linear(features,features)
+
+    def forward(self, input):
+        # x: n*a*b*c
+        input_shape = input.shape
+        output = torch.empty_like(input)
+        for i in range(input_shape[0]):
+            x = input[i].reshape(-1) # 变成一维
+            x2 = torch.pow(x,2)
+            scale = self.linear(x2)
+            x = x * scale.sqrt()
+            output[i] = x.reshape(input_shape[1:]) # 恢复成三维
+
+        return output
 
 class EncodeNet(nn.Module):
     def __init__(self):
@@ -30,10 +68,14 @@ class EncodeNet(nn.Module):
         self.conv0 = nn.Conv2d(1, 128, 1)
 
         self.conv1_0 = nn.Conv2d(128, 128, 9)
+        self.conv1_1 = nn.Conv2d(128, 128, 9)
 
         self.bn128_0 = nn.BatchNorm2d(128)
         self.bn128_1 = nn.BatchNorm2d(128)
+        self.bn128_2 = nn.BatchNorm2d(128)
 
+        self.norm0 = NormNet(128 * 248 * 248)
+        self.norm1 = NormNet(128 * 240 * 240)
 
 
     def forward(self, x):
@@ -41,14 +83,17 @@ class EncodeNet(nn.Module):
         # n*1*256*256 -> n*128*256*256
         x = self.conv0(x)
 
-        # n*128*256*256 -> n*128*248*248
-        xA = F.interpolate(x, (248, 248), mode='bilinear')
+        # n*128*256*256 -> n*128*240*240
+        xA = F.interpolate(x, (240, 240), mode='bilinear')
         xA = self.bn128_0(xA)
 
         x = F.leaky_relu(self.conv1_0(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = self.norm0(x)
         x = self.bn128_1(x)
 
+        x = F.leaky_relu(self.conv1_1(x))
+        x = self.norm1(x)
+        x = self.bn128_2(x)
 
         x = x + xA
 
@@ -63,21 +108,29 @@ class DecodeNet(nn.Module):
         self.tconv0 = nn.ConvTranspose2d(128, 1, 1)
 
         self.tconv1_0 = nn.ConvTranspose2d(128, 128, 9)
+        self.tconv1_1 = nn.ConvTranspose2d(128, 128, 9)
 
         self.bn128_0 = nn.BatchNorm2d(128)
         self.bn128_1 = nn.BatchNorm2d(128)
+        self.bn128_2 = nn.BatchNorm2d(128)
+
+        self.tnorm0 = TNormNet(128 * 240 * 240)
+        self.tnorm1 = TNormNet(128 * 248 * 248)
 
 
     def forward(self, x):
 
-        # n*128*248*248 -> n*128*256*256
+        # n*128*240*240 -> n*128*256*256
         xA = F.interpolate(x, (256, 256), mode='bilinear')
         xA = self.bn128_0(xA)
 
         x = F.leaky_relu(self.tconv1_0(x))
-        x = x * (torch.norm(x) + 1e-6)
+        x = self.tnorm0(x)
         x = self.bn128_1(x)
 
+        x = F.leaky_relu(self.tconv1_1(x))
+        x = self.tnorm1(x)
+        x = self.bn128_2(x)
 
         x = x + xA
 
@@ -102,8 +155,8 @@ class expDecayLoss(nn.Module):
         super(expDecayLoss, self).__init__()
     def forward(self, x, y, lam):
         # lam介于[0,1]
-        mse = torch.pow(x - y, 2);
-        decay = torch.pow(torch.ones_like(mse)/2, lam) # 按1/2的lam次衰减
+        mse = torch.pow(x - y, 2)
+        decay = torch.pow(torch.ones_like(mse)/64, lam) # 按1/64的lam次衰减
         mse = torch.mean(mse.mul(decay))
         return mse
 
