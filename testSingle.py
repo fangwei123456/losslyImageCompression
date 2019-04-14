@@ -8,6 +8,7 @@ import torch.optim
 import sys
 import os
 
+
 class Quantize(torch.autograd.Function): # 量化函数
     @staticmethod
     def forward(ctx, input):
@@ -525,7 +526,7 @@ class expDecayLoss(nn.Module):
         super(expDecayLoss, self).__init__()
     def forward(self, x, y, lam):
         # lam介于[0,1]
-        mse = torch.pow(x - y, 2);
+        mse = torch.pow(x - y, 2)
         decay = torch.pow(torch.ones_like(mse)/2, lam) # 按1/2的lam次衰减
         mse = torch.mean(mse.mul(decay))
         return mse
@@ -535,23 +536,14 @@ class expDecayLoss(nn.Module):
 torch.cuda.set_device(int(sys.argv[1]))
 net = torch.load('./models/25.pkl').cuda()
 imgNum = os.listdir('./256bmp').__len__()
-j = 0
-mseCriterion = nn.MSELoss()
-for i in range(0,imgNum,8):
-    print(i)
-    img = Image.open('./256bmp/' + str(i) + '.bmp').convert('L')
-    imgData = numpy.asarray(img).astype(float)
-    imgData = imgData.reshape((1,1,256,256))
-    trainData = torch.from_numpy(imgData).float().cuda()
-    output = net(trainData)
-    output[output < 0] = 0
-    output[output > 255] = 255
-    newImgData = output.cpu().detach().numpy().reshape([256,256])
-    newImgData[newImgData < 0] = 0
-    newImgData[newImgData > 255] = 255
-    mseLoss = mseCriterion(output, trainData)
-    print(mseLoss)
-    newImgData = newImgData.astype(numpy.uint8)
-    img = Image.fromarray(newImgData)
-    img.save('./newImg/' + str(j) + '.bmp')
-    j = j + 1
+img = Image.open(sys.argv[2]).convert('L')
+imgData = numpy.asarray(img).astype(float)
+imgData = imgData.reshape((1,1,256,256))
+trainData = torch.from_numpy(imgData).float().cuda()
+output = net(trainData)
+newImgData = output.cpu().detach().numpy().reshape([256,256])
+newImgData[newImgData < 0] = 0
+newImgData[newImgData > 255] = 255
+newImgData = newImgData.astype(numpy.uint8)
+img = Image.fromarray(newImgData)
+img.save('./enc_dec.bmp')

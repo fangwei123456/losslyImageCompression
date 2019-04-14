@@ -7,6 +7,7 @@ import torch.autograd
 import torch.optim
 import sys
 import os
+import pytorch_ssim
 
 class Quantize(torch.autograd.Function): # 量化函数
     @staticmethod
@@ -29,35 +30,27 @@ class EncodeNet(nn.Module):
 
         self.conv0 = nn.Conv2d(1, 128, 1)
 
-        self.conv1_0 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_1 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_2 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_3 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_4 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_5 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_6 = nn.Conv2d(128, 128, 5, padding=2)
-        self.conv1_7 = nn.Conv2d(128, 128, 5, padding=2)
+        self.conv1_0 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_1 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_2 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_3 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_4 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_5 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_6 = nn.Conv2d(128, 128, 3, padding=1)
+        self.conv1_7 = nn.Conv2d(128, 128, 3, padding=1)
 
         self.conv2 = nn.Conv2d(128, 64, 1) # 降通道数
         self.conv3 = nn.Conv2d(64, 32, 1) # 降通道数
 
-        self.conv2_0 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_1 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_2 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_3 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_4 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_5 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_6 = nn.Conv2d(64, 64, 5, padding=2)
-        self.conv2_7 = nn.Conv2d(64, 64, 5, padding=2)
+        self.conv2_0 = nn.Conv2d(64, 64, 3, padding=1)
+        self.conv2_1 = nn.Conv2d(64, 64, 3, padding=1)
+        self.conv2_2 = nn.Conv2d(64, 64, 3, padding=1)
+        self.conv2_3 = nn.Conv2d(64, 64, 3, padding=1)
 
-        self.conv3_0 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_1 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_2 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_3 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_4 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_5 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_6 = nn.Conv2d(32, 32, 5, padding=2)
-        self.conv3_7 = nn.Conv2d(32, 32, 5, padding=2)
+        self.conv3_0 = nn.Conv2d(32, 32, 3, padding=1)
+        self.conv3_1 = nn.Conv2d(32, 32, 3, padding=1)
+        self.conv3_2 = nn.Conv2d(32, 32, 3, padding=1)
+        self.conv3_3 = nn.Conv2d(32, 32, 3, padding=1)
 
         self.conv_down_0 = nn.Conv2d(128, 128, 2, 2) # 降采样
 
@@ -74,19 +67,11 @@ class EncodeNet(nn.Module):
         self.bn64_1 = nn.BatchNorm2d(64)
         self.bn64_2 = nn.BatchNorm2d(64)
         self.bn64_3 = nn.BatchNorm2d(64)
-        self.bn64_4 = nn.BatchNorm2d(64)
-        self.bn64_5 = nn.BatchNorm2d(64)
-        self.bn64_6 = nn.BatchNorm2d(64)
-        self.bn64_7 = nn.BatchNorm2d(64)
 
         self.bn32_0 = nn.BatchNorm2d(32)
         self.bn32_1 = nn.BatchNorm2d(32)
         self.bn32_2 = nn.BatchNorm2d(32)
         self.bn32_3 = nn.BatchNorm2d(32)
-        self.bn32_4 = nn.BatchNorm2d(32)
-        self.bn32_5 = nn.BatchNorm2d(32)
-        self.bn32_6 = nn.BatchNorm2d(32)
-        self.bn32_7 = nn.BatchNorm2d(32)
 
         self.bn128_A_0 = nn.BatchNorm2d(128)
         self.bn128_A_1 = nn.BatchNorm2d(128)
@@ -95,13 +80,9 @@ class EncodeNet(nn.Module):
 
         self.bn64_A_0 = nn.BatchNorm2d(64)
         self.bn64_A_1 = nn.BatchNorm2d(64)
-        self.bn64_A_2 = nn.BatchNorm2d(64)
-        self.bn64_A_3 = nn.BatchNorm2d(64)
 
         self.bn32_A_0 = nn.BatchNorm2d(32)
         self.bn32_A_1 = nn.BatchNorm2d(32)
-        self.bn32_A_2 = nn.BatchNorm2d(32)
-        self.bn32_A_3 = nn.BatchNorm2d(32)
 
 
 
@@ -188,30 +169,6 @@ class EncodeNet(nn.Module):
 
         x = x + xA
 
-        xA = self.bn64_A_2(x)
-
-        x = F.leaky_relu(self.conv2_4(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn64_4(x)
-
-        x = F.leaky_relu(self.conv2_5(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn64_5(x)
-
-        x = x + xA
-
-        xA = self.bn64_A_3(x)
-
-        x = F.leaky_relu(self.conv2_6(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn64_6(x)
-
-        x = F.leaky_relu(self.conv2_7(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn64_7(x)
-
-        x = x + xA
-
         # n*64*128*128 -> n*32*128*128
         x = self.conv3(x)
 
@@ -239,30 +196,6 @@ class EncodeNet(nn.Module):
 
         x = x + xA
 
-        xA = self.bn32_A_2(x)
-
-        x = F.leaky_relu(self.conv3_4(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn32_4(x)
-
-        x = F.leaky_relu(self.conv3_5(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn32_5(x)
-
-        x = x + xA
-
-        xA = self.bn32_A_3(x)
-
-        x = F.leaky_relu(self.conv3_6(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn32_6(x)
-
-        x = F.leaky_relu(self.conv3_7(x))
-        x = x / (torch.norm(x) + 1e-6)
-        x = self.bn32_7(x)
-
-        x = x + xA
-
         return x
 
 
@@ -275,32 +208,24 @@ class DecodeNet(nn.Module):
         self.tconv1 = nn.ConvTranspose2d(64, 128, 1)
         self.tconv2 = nn.ConvTranspose2d(32, 64, 1)
 
-        self.tconv1_0 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_1 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_2 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_3 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_4 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_5 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_6 = nn.ConvTranspose2d(128, 128, 5, padding=2)
-        self.tconv1_7 = nn.ConvTranspose2d(128, 128, 5, padding=2)
+        self.tconv1_0 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_1 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_2 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_3 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_4 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_5 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_6 = nn.ConvTranspose2d(128, 128, 3, padding=1)
+        self.tconv1_7 = nn.ConvTranspose2d(128, 128, 3, padding=1)
 
-        self.tconv2_0 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_1 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_2 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_3 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_4 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_5 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_6 = nn.ConvTranspose2d(64, 64, 5, padding=2)
-        self.tconv2_7 = nn.ConvTranspose2d(64, 64, 5, padding=2)
+        self.tconv2_0 = nn.ConvTranspose2d(64, 64, 3, padding=1)
+        self.tconv2_1 = nn.ConvTranspose2d(64, 64, 3, padding=1)
+        self.tconv2_2 = nn.ConvTranspose2d(64, 64, 3, padding=1)
+        self.tconv2_3 = nn.ConvTranspose2d(64, 64, 3, padding=1)
 
-        self.tconv3_0 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_1 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_2 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_3 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_4 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_5 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_6 = nn.ConvTranspose2d(32, 32, 5, padding=2)
-        self.tconv3_7 = nn.ConvTranspose2d(32, 32, 5, padding=2)
+        self.tconv3_0 = nn.ConvTranspose2d(32, 32, 3, padding=1)
+        self.tconv3_1 = nn.ConvTranspose2d(32, 32, 3, padding=1)
+        self.tconv3_2 = nn.ConvTranspose2d(32, 32, 3, padding=1)
+        self.tconv3_3 = nn.ConvTranspose2d(32, 32, 3, padding=1)
 
         self.tconv_up_0 = nn.ConvTranspose2d(128, 128, 2, 2) # 升采样
 
@@ -317,19 +242,11 @@ class DecodeNet(nn.Module):
         self.bn64_1 = nn.BatchNorm2d(64)
         self.bn64_2 = nn.BatchNorm2d(64)
         self.bn64_3 = nn.BatchNorm2d(64)
-        self.bn64_4 = nn.BatchNorm2d(64)
-        self.bn64_5 = nn.BatchNorm2d(64)
-        self.bn64_6 = nn.BatchNorm2d(64)
-        self.bn64_7 = nn.BatchNorm2d(64)
 
         self.bn32_0 = nn.BatchNorm2d(32)
         self.bn32_1 = nn.BatchNorm2d(32)
         self.bn32_2 = nn.BatchNorm2d(32)
         self.bn32_3 = nn.BatchNorm2d(32)
-        self.bn32_4 = nn.BatchNorm2d(32)
-        self.bn32_5 = nn.BatchNorm2d(32)
-        self.bn32_6 = nn.BatchNorm2d(32)
-        self.bn32_7 = nn.BatchNorm2d(32)
 
         self.bn128_A_0 = nn.BatchNorm2d(128)
         self.bn128_A_1 = nn.BatchNorm2d(128)
@@ -338,13 +255,9 @@ class DecodeNet(nn.Module):
 
         self.bn64_A_0 = nn.BatchNorm2d(64)
         self.bn64_A_1 = nn.BatchNorm2d(64)
-        self.bn64_A_2 = nn.BatchNorm2d(64)
-        self.bn64_A_3 = nn.BatchNorm2d(64)
 
         self.bn32_A_0 = nn.BatchNorm2d(32)
         self.bn32_A_1 = nn.BatchNorm2d(32)
-        self.bn32_A_2 = nn.BatchNorm2d(32)
-        self.bn32_A_3 = nn.BatchNorm2d(32)
 
 
 
@@ -375,30 +288,6 @@ class DecodeNet(nn.Module):
 
         x = x + xA
 
-        xA = self.bn32_A_2(x)
-
-        x = F.leaky_relu(self.tconv3_4(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn32_4(x)
-
-        x = F.leaky_relu(self.tconv3_5(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn32_5(x)
-
-        x = x + xA
-
-        xA = self.bn32_A_3(x)
-
-        x = F.leaky_relu(self.tconv3_6(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn32_6(x)
-
-        x = F.leaky_relu(self.tconv3_7(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn32_7(x)
-
-        x = x + xA
-
         # n*32*128*128 -> n*64*128*128
         x = self.tconv2(x)
 
@@ -423,30 +312,6 @@ class DecodeNet(nn.Module):
         x = F.leaky_relu(self.tconv2_3(x))
         x = x * (torch.norm(x) + 1e-6)
         x = self.bn64_3(x)
-
-        x = x + xA
-
-        xA = self.bn64_A_2(x)
-
-        x = F.leaky_relu(self.tconv2_4(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn64_4(x)
-
-        x = F.leaky_relu(self.tconv2_5(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn64_5(x)
-
-        x = x + xA
-
-        xA = self.bn64_A_3(x)
-
-        x = F.leaky_relu(self.tconv2_6(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn64_6(x)
-
-        x = F.leaky_relu(self.tconv2_7(x))
-        x = x * (torch.norm(x) + 1e-6)
-        x = self.bn64_7(x)
 
         x = x + xA
 
@@ -532,26 +397,110 @@ class expDecayLoss(nn.Module):
 
 
 
-torch.cuda.set_device(int(sys.argv[1]))
-net = torch.load('./models/25.pkl').cuda()
+
+
+
+'''
+argv:
+1: 使用哪个显卡
+2: 为0则重新开始训练 否则读取之前的模型
+3: 学习率 Adam默认是1e-3
+4: 训练次数
+5: 保存的模型标号
+'''
+'''
+imgNum = os.listdir('/home/nvidia/文档/dataSet/256bmp').__len__()
+imgData = numpy.empty([imgNum,1,256,256])
+
+for i in range(imgNum):
+    img = Image.open('/home/nvidia/文档/dataSet/256bmp/' + str(i) + '.bmp').convert('L')
+    imgData[i] = numpy.asarray(img).astype(float).reshape([1,256,256])
+
+
+imgData = imgData / 255 # 归一化到[0,1]
+
+net = EncodeNet().cuda()
+trainData = torch.from_numpy(imgData[0:1]).float().cuda()
+net(trainData)
+
+exit(0)
+'''
+if(len(sys.argv)!=6):
+    print('1: 使用哪个显卡\n'
+          '2: 为0则重新开始训练 否则读取之前的模型\n'
+          '3: 学习率 Adam默认是1e-3\n'
+          '4: 训练次数\n'
+          '5: 保存的模型标号')
+    exit(0)
+torch.cuda.set_device(int(sys.argv[1])) # 设置使用哪个显卡
 imgNum = os.listdir('./256bmp').__len__()
-j = 0
-mseCriterion = nn.MSELoss()
-for i in range(0,imgNum,8):
-    print(i)
+imgData = numpy.empty([imgNum,1,256,256])
+laplacianData = numpy.empty([imgNum,1,256,256])
+for i in range(imgNum):
     img = Image.open('./256bmp/' + str(i) + '.bmp').convert('L')
-    imgData = numpy.asarray(img).astype(float)
-    imgData = imgData.reshape((1,1,256,256))
-    trainData = torch.from_numpy(imgData).float().cuda()
-    output = net(trainData)
-    output[output < 0] = 0
-    output[output > 255] = 255
-    newImgData = output.cpu().detach().numpy().reshape([256,256])
-    newImgData[newImgData < 0] = 0
-    newImgData[newImgData > 255] = 255
-    mseLoss = mseCriterion(output, trainData)
-    print(mseLoss)
-    newImgData = newImgData.astype(numpy.uint8)
-    img = Image.fromarray(newImgData)
-    img.save('./newImg/' + str(j) + '.bmp')
-    j = j + 1
+    imgData[i] = numpy.asarray(img).astype(float).reshape([1,256,256])
+
+    img = Image.open('./256bmpLaplacian/' + str(i) + '.bmp').convert('L')
+    laplacianData[i] = numpy.asarray(img).astype(float).reshape([1,256,256])
+
+
+laplacianData = laplacianData / 255 # 归一化到[0,1]
+
+
+
+if(sys.argv[2]=='0'): # 设置是重新开始 还是继续训练
+    net = cNet().cuda()
+    print('create new model')
+else:
+    net = torch.load('./models/' + sys.argv[5] + '.pkl').cuda()
+    print('read ./models/' + sys.argv[5] + '.pkl')
+
+print(net)
+
+
+criterion = pytorch_ssim.SSIM()
+optimizer = torch.optim.Adam(net.parameters(), lr=float(sys.argv[3]))
+batchSize = 6 # 一次读取?张图片进行训练
+imgData = torch.from_numpy(imgData).float().cuda()
+trainData = torch.empty([batchSize, 1, 256, 256]).float().cuda()
+for i in range(int(sys.argv[4])):
+
+    readSeq = torch.randperm(imgNum) # 生成读取的随机序列
+    maxLossOfTrainData = -torch.ones(1).cuda()
+    j = 0
+
+    while(1):
+        if(j==imgNum):
+            break
+        k = 0
+        while(1):
+            trainData[k] = imgData[readSeq[j]]
+            k = k + 1
+            j = j + 1
+            if(k==batchSize or j==imgNum):
+                break
+
+        optimizer.zero_grad()
+        output = net(trainData)
+
+        loss = -criterion(output, trainData) # 极小化损失 所以要加个负号
+        if(loss>maxLossOfTrainData):
+            maxLossOfTrainData = loss # 保存所有训练样本中的最大损失
+
+        loss.backward()
+        optimizer.step()
+
+    if (i == 0):
+        minLoss = loss
+    else:
+        if (loss < minLoss):  # 保存最小loss对应的模型
+            minLoss = loss
+            torch.save(net, './models/' + sys.argv[5] + '.pkl')
+            print('save ./models/' + sys.argv[5] + '.pkl')
+
+    print(sys.argv)
+    print(i)
+    print(loss)
+    print(minLoss)
+
+
