@@ -183,7 +183,6 @@ class EncodeNet(nn.Module):
         x = self.bn128_3(x)
 
         x = x + xA
-
         # n*128*256*256 -> n*128*128*128
         x = self.conv_down_0(x)
 

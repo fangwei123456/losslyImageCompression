@@ -112,11 +112,11 @@ class BasicalTResNet(nn.Module):
         xA = self.bnA0(x)
 
         x = F.leaky_relu(self.tconv0(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn0(x)
 
         x = F.leaky_relu(self.tconv1(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn1(x)
 
         x = x + xA
@@ -124,31 +124,31 @@ class BasicalTResNet(nn.Module):
         xA = self.bnA1(x)
 
         x = F.leaky_relu(self.tconv2(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn2(x)
 
         x = F.leaky_relu(self.tconv3(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn3(x)
 
         xA = self.bnA2(x)
 
         x = F.leaky_relu(self.tconv4(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn4(x)
 
         x = F.leaky_relu(self.tconv5(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn5(x)
 
         xA = self.bnA3(x)
 
         x = F.leaky_relu(self.tconv6(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn6(x)
 
         x = F.leaky_relu(self.tconv7(x))
-        x = x / (torch.norm(x) + 1e-6)
+        x = x * (torch.norm(x) + 1e-6)
         x = self.bn7(x)
 
         x = x + xA
